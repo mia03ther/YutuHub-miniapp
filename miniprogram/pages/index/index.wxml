@@ -1,0 +1,146 @@
+<view class="container">
+
+<!-- 顶部 Banner -->
+<view class="hero">
+  <view class="title">屿途校园</view>
+  <view class="subtitle">
+    连接校园生活 · 发现有价值的信息
+  </view>
+
+  <view class="hero-tags">
+    <text>📚 学习交流</text>
+    <text>🛒 闲置交易</text>
+    <text>🐱 校园生活</text>
+    <text>🤖 AI工具</text>
+  </view>
+</view>
+
+
+<!-- 搜索 -->
+<view class="search-box">
+  <text class="search-icon">🔍</text>
+  <text class="search-placeholder">
+    搜索校园资讯、资源、帖子...
+  </text>
+</view>
+
+
+<!-- 功能入口 -->
+<view class="section">
+
+  <view class="section-title">
+    热门服务
+  </view>
+
+
+  <view class="grid">
+
+    <view class="card">
+      <text class="icon">📖</text>
+      <text>选课指南</text>
+    </view>
+
+    <view class="card">
+      <text class="icon">🍜</text>
+      <text>校园美食</text>
+    </view>
+
+    <view class="card">
+      <text class="icon">🐱</text>
+      <text>校园猫咪</text>
+    </view>
+
+    <view class="card">
+      <text class="icon">🛍️</text>
+      <text>二手交易</text>
+    </view>
+
+  </view>
+
+</view>
+
+
+
+<!-- 社区动态 -->
+<view class="section">
+
+  <view class="section-header">
+    <text class="section-title">
+      校园动态
+    </text>
+
+    <text class="more">
+      查看更多 >
+    </text>
+  </view>
+
+
+  <view class="post">
+
+    <view class="avatar">
+      🌱
+    </view>
+
+    <view class="content">
+
+      <view class="post-title">
+        欢迎来到屿途校园
+      </view>
+
+      <view class="desc">
+        分享校园生活，连接同学资源，共建校园社区
+      </view>
+
+      <view class="meta">
+        今天 · 屿途官方
+      </view>
+
+    </view>
+
+  </view>
+
+
+  <view class="post">
+
+    <view class="avatar">
+      🤖
+    </view>
+
+    <view class="content">
+
+      <view class="post-title">
+        AI工具交流专区开放
+      </view>
+
+      <view class="desc">
+        分享好用的AI工具，提高学习效率
+      </view>
+
+      <view class="meta">
+        128 人浏览
+      </view>
+
+    </view>
+
+  </view>
+
+
+</view>
+
+
+
+<!-- 商业入口 -->
+<view class="business">
+
+  <view class="business-title">
+    🚀 屿途生态
+  </view>
+
+  <view class="business-desc">
+    校园服务 · 技能交易 · AI产品 · 创作者合作
+  </view>
+
+</view>
+
+
+</view>
