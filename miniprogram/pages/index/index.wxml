@@ -1,146 +1,182 @@
-<view class="container">
+<view class="page index">
+  <navbar title="YutuHub" subtitle="AI Native Campus" logoText="屿" bordered="{{false}}">
+    <view slot="extra" class="nav-action pressable" bindtap="gotoProfile">
+      <view class="nav-avatar nav-avatar--purple">屿</view>
+    </view>
+  </navbar>
 
-<!-- 顶部 Banner -->
-<view class="hero">
-  <view class="title">屿途校园</view>
-  <view class="subtitle">
-    连接校园生活 · 发现有价值的信息
-  </view>
+  <view class="hero">
+    <view class="hero-glow hero-glow--a"></view>
+    <view class="hero-glow hero-glow--b"></view>
 
-  <view class="hero-tags">
-    <text>📚 学习交流</text>
-    <text>🛒 闲置交易</text>
-    <text>🐱 校园生活</text>
-    <text>🤖 AI工具</text>
-  </view>
-</view>
-
-
-<!-- 搜索 -->
-<view class="search-box">
-  <text class="search-icon">🔍</text>
-  <text class="search-placeholder">
-    搜索校园资讯、资源、帖子...
-  </text>
-</view>
-
-
-<!-- 功能入口 -->
-<view class="section">
-
-  <view class="section-title">
-    热门服务
-  </view>
-
-
-  <view class="grid">
-
-    <view class="card">
-      <text class="icon">📖</text>
-      <text>选课指南</text>
+    <view class="hero-badge">
+      <view class="hero-dot"></view>
+      <text>屿途大学 · 已服务 12,860 位同学</text>
     </view>
 
-    <view class="card">
-      <text class="icon">🍜</text>
-      <text>校园美食</text>
+    <view class="hero-title">屿途校园</view>
+    <view class="hero-desc">{{greeting}}</view>
+    <view class="hero-user">
+      <text class="hero-user-name">{{user.nickname}}</text>
+      <text class="hero-user-dot">·</text>
+      <text class="hero-user-school">{{user.school}}</text>
     </view>
 
-    <view class="card">
-      <text class="icon">🐱</text>
-      <text>校园猫咪</text>
-    </view>
-
-    <view class="card">
-      <text class="icon">🛍️</text>
-      <text>二手交易</text>
-    </view>
-
-  </view>
-
-</view>
-
-
-
-<!-- 社区动态 -->
-<view class="section">
-
-  <view class="section-header">
-    <text class="section-title">
-      校园动态
-    </text>
-
-    <text class="more">
-      查看更多 >
-    </text>
-  </view>
-
-
-  <view class="post">
-
-    <view class="avatar">
-      🌱
-    </view>
-
-    <view class="content">
-
-      <view class="post-title">
-        欢迎来到屿途校园
+    <view class="hero-search pressable" bindtap="onSearchTap">
+      <view class="search-magnifier">
+        <view class="magnifier-ring"></view>
+        <view class="magnifier-stick"></view>
       </view>
-
-      <view class="desc">
-        分享校园生活，连接同学资源，共建校园社区
-      </view>
-
-      <view class="meta">
-        今天 · 屿途官方
-      </view>
-
+      <text class="search-placeholder">搜索校园资讯、资源、同学帖子</text>
+      <view class="search-cta">搜索</view>
     </view>
 
+    <view class="hero-stats">
+      <view class="hero-stat">
+        <text class="hero-stat-num">2.4k</text>
+        <text class="hero-stat-label">今日动态</text>
+      </view>
+      <view class="hero-stat-line"></view>
+      <view class="hero-stat">
+        <text class="hero-stat-num">860+</text>
+        <text class="hero-stat-label">共享资料</text>
+      </view>
+      <view class="hero-stat-line"></view>
+      <view class="hero-stat">
+        <text class="hero-stat-num">98%</text>
+        <text class="hero-stat-label">满意度</text>
+      </view>
+    </view>
   </view>
 
-
-  <view class="post">
-
-    <view class="avatar">
-      🤖
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">功能入口</text>
+        <text class="section-desc">一站式覆盖校园高频场景</text>
+      </view>
+      <view class="section-action" bindtap="gotoExplore">
+        <text>全部</text>
+        <view class="chevron"></view>
+      </view>
     </view>
 
-    <view class="content">
-
-      <view class="post-title">
-        AI工具交流专区开放
+    <scroll-view class="feature-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="feature-row">
+        <view
+          wx:for="{{features}}"
+          wx:key="key"
+          class="feature-item"
+        >
+          <feature-card
+            icon="{{item.icon}}"
+            title="{{item.title}}"
+            desc="{{item.desc}}"
+            tone="{{item.tone}}"
+            badge="{{item.badge}}"
+            layout="tile"
+            bind:select="onFeatureSelect"
+          />
+        </view>
       </view>
+    </scroll-view>
+  </view>
 
-      <view class="desc">
-        分享好用的AI工具，提高学习效率
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">热门动态</text>
+        <text class="section-desc">此刻同学们正在讨论</text>
       </view>
-
-      <view class="meta">
-        128 人浏览
+      <view class="section-action" bindtap="onMoreTap">
+        <text>查看全部</text>
+        <view class="chevron"></view>
       </view>
-
     </view>
 
+    <view class="feed">
+      <view wx:for="{{feed}}" wx:key="id" class="feed-item">
+        <card
+          variant="plain"
+          radius="lg"
+          padding="none"
+          pressable="{{true}}"
+          data-id="{{item.id}}"
+          bind:tap="onFeedTap"
+        >
+        <view class="feed-head">
+          <view class="feed-avatar feed-avatar--{{item.avatarTone}}">{{item.avatar}}</view>
+          <view class="feed-meta">
+            <view class="feed-author-line">
+              <text class="feed-author">{{item.author}}</text>
+              <text class="pill feed-channel">{{item.channel}}</text>
+            </view>
+            <text class="feed-time">{{item.time}}</text>
+          </view>
+        </view>
+
+        <text class="feed-title">{{item.title}}</text>
+        <text class="feed-summary">{{item.summary}}</text>
+
+        <view class="feed-cover" style="background: linear-gradient(135deg, {{item.coverFrom}}, {{item.coverTo}});">
+          <text class="feed-cover-emoji">{{item.emoji}}</text>
+        </view>
+
+        <view class="feed-foot">
+          <view class="feed-tags">
+            <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="feed-tag">#{{tag}}</text>
+          </view>
+          <view class="feed-actions">
+            <view class="feed-action pressable" data-id="{{item.id}}" catchtap="onToggleLike">
+              <text class="feed-action-icon {{item.liked ? 'is-liked' : ''}}">{{item.liked ? '❤️' : '🤍'}}</text>
+              <text class="feed-action-num">{{item.likes}}</text>
+            </view>
+            <view class="feed-action">
+              <text class="feed-action-icon">💬</text>
+              <text class="feed-action-num">{{item.comments}}</text>
+            </view>
+          </view>
+        </view>
+        </card>
+      </view>
+    </view>
   </view>
 
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">推荐内容</text>
+        <text class="section-desc">根据你的专业与年级挑选</text>
+      </view>
+      <view class="section-action" bindtap="onMoreTap">
+        <text>换一批</text>
+        <view class="chevron"></view>
+      </view>
+    </view>
 
-</view>
-
-
-
-<!-- 商业入口 -->
-<view class="business">
-
-  <view class="business-title">
-    🚀 屿途生态
+    <view class="recommend">
+      <view wx:for="{{recommends}}" wx:key="id" class="recommend-item">
+        <card
+          variant="plain"
+          radius="md"
+          padding="none"
+          pressable="{{true}}"
+          bind:tap="onRecommendTap"
+        >
+          <view class="recommend-icon recommend-icon--{{item.tone}}">{{item.emoji}}</view>
+          <text class="recommend-title">{{item.title}}</text>
+          <text class="recommend-desc">{{item.desc}}</text>
+          <view class="recommend-foot">
+            <text class="recommend-meta">{{item.meta}}</text>
+            <text class="recommend-score">{{item.score}}</text>
+          </view>
+        </card>
+      </view>
+    </view>
   </view>
 
-  <view class="business-desc">
-    校园服务 · 技能交易 · AI产品 · 创作者合作
+  <view class="footer">
+    <view class="footer-line"></view>
+    <text class="footer-text">已经到底啦 · 屿途与你一起成长</text>
   </view>
-
-</view>
-
-
 </view>

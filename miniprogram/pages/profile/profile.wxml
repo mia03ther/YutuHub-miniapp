@@ -1,0 +1,122 @@
+<view class="page profile">
+  <navbar title="我的" subtitle="屿途大学" logoText="屿" bordered="{{false}}" />
+
+  <card variant="plain" radius="xl" padding="none">
+    <view class="profile-head">
+      <view class="profile-glow"></view>
+
+      <view class="profile-top">
+        <view class="avatar-wrap">
+          <image wx:if="{{user.avatar}}" class="avatar-img" src="{{user.avatar}}" mode="aspectFill" />
+          <view wx:else class="avatar-fallback">屿</view>
+          <view class="avatar-level">{{user.level}}</view>
+        </view>
+
+        <view class="profile-info">
+          <view class="profile-name-line">
+            <text class="profile-name">{{user.nickname}}</text>
+            <text class="pill profile-verify">已认证</text>
+          </view>
+          <text class="profile-school">{{user.school}}</text>
+          <text class="profile-sign">{{user.signature}}</text>
+        </view>
+      </view>
+
+      <view class="profile-stats">
+        <view class="stat pressable" data-label="关注者" bindtap="onStatTap">
+          <text class="stat-num">{{user.followers}}</text>
+          <text class="stat-label">关注者</text>
+        </view>
+        <view class="stat pressable" data-label="关注" bindtap="onStatTap">
+          <text class="stat-num">{{user.following}}</text>
+          <text class="stat-label">关注</text>
+        </view>
+        <view class="stat pressable" data-label="屿途积分" bindtap="onStatTap">
+          <text class="stat-num">{{user.points}}</text>
+          <text class="stat-label">屿途积分</text>
+        </view>
+        <view class="stat pressable" data-label="信用分" bindtap="onStatTap">
+          <text class="stat-num">{{user.credits}}</text>
+          <text class="stat-label">信用分</text>
+        </view>
+      </view>
+    </view>
+  </card>
+
+  <view wx:if="{{!authorized}}" class="bind">
+    <text class="bind-title">绑定微信头像昵称</text>
+    <text class="bind-desc">授权后同步校园身份，发布内容可获得屿途积分</text>
+
+    <view class="bind-form">
+      <button class="bind-avatar pressable" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <text wx:if="{{!user.avatar}}" class="bind-avatar-ph">头像</text>
+        <image wx:else class="bind-avatar-img" src="{{user.avatar}}" mode="aspectFill" />
+      </button>
+
+      <input
+        class="bind-input"
+        type="nickname"
+        value="{{draftNickname}}"
+        placeholder="点这里设置昵称"
+        placeholder-class="bind-input-ph"
+        bindinput="onNicknameInput"
+      />
+    </view>
+
+    <view class="bind-btn pressable" bindtap="onSaveProfile">
+      <text>保存资料</text>
+    </view>
+  </view>
+
+  <view class="ai-lab pressable" bindtap="onAiLabTap">
+    <view class="ai-glow"></view>
+    <view class="ai-icon">✨</view>
+    <view class="ai-body">
+      <text class="ai-title">屿途 AI 创作台</text>
+      <text class="ai-desc">一句话生成笔记、简历、社团招新文案</text>
+    </view>
+    <view class="ai-cta">立即体验</view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">我的内容</text>
+    </view>
+
+    <view class="menus">
+      <view wx:for="{{menus}}" wx:key="key" class="menu-item pressable" data-label="{{item.label}}" bindtap="onMenuTap">
+        <view class="menu-icon menu-icon--{{item.tone}}">{{item.emoji}}</view>
+        <text class="menu-label">{{item.label}}</text>
+        <text class="menu-value">{{item.value}}</text>
+        <view class="menu-arrow"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">设置</text>
+    </view>
+
+    <view class="menus">
+      <view
+        wx:for="{{settings}}"
+        wx:key="key"
+        class="menu-item pressable"
+        data-label="{{item.label}}"
+        bindtap="onMenuTap"
+      >
+        <view class="menu-icon menu-icon--{{item.tone}}">{{item.emoji}}</view>
+        <text class="menu-label">{{item.label}}</text>
+        <text wx:if="{{item.value}}" class="menu-value">{{item.value}}</text>
+        <view class="menu-arrow"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="logout pressable" bindtap="onMenuTap" data-label="退出登录">
+    <text>退出登录</text>
+  </view>
+
+  <text class="version">YutuHub MiniApp · v0.1.0</text>
+</view>

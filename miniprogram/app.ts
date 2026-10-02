@@ -1,31 +1,19 @@
 App<IAppOption>({
-
   globalData: {
-
-    apiBase:"http://120.25.214.139:3001/api"
-
+    apiBase: 'https://api.yutuhub.com/api',
+    mockMode: true,
+    loginCode: ''
   },
 
-
-  onLaunch(){
-
-
+  onLaunch() {
     wx.login({
-
-      success:(res)=>{
-
-
-        console.log(
-          "微信登录code:",
-          res.code
-        )
-
-
+      success: (res) => {
+        this.globalData.loginCode = res.code
+        wx.setStorageSync('loginCode', res.code)
+      },
+      fail: () => {
+        this.globalData.loginCode = ''
       }
-
     })
-
-
   }
-
 })

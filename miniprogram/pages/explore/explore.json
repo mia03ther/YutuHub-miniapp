@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "YutuHub 屿途校园",
+  "navigationBarTitleText": "探索",
   "usingComponents": {
     "navbar": "../../components/navbar/index",
     "card": "../../components/card/index",

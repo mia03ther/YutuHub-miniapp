@@ -1,0 +1,22 @@
+<view class="navbar {{sticky ? 'navbar--sticky' : ''}} {{bordered ? 'navbar--bordered' : ''}}">
+  <view class="navbar-inner">
+    <view wx:if="{{showLogo}}" class="navbar-brand">
+      <view class="navbar-logo">
+        <text>{{logoText}}</text>
+      </view>
+      <view class="navbar-text">
+        <text class="navbar-title">{{title}}</text>
+        <text wx:if="{{subtitle}}" class="navbar-subtitle">{{subtitle}}</text>
+      </view>
+    </view>
+
+    <view wx:else class="navbar-text navbar-text--solo">
+      <text class="navbar-title">{{title}}</text>
+      <text wx:if="{{subtitle}}" class="navbar-subtitle">{{subtitle}}</text>
+    </view>
+
+    <view class="navbar-extra">
+      <slot name="extra" />
+    </view>
+  </view>
+</view>

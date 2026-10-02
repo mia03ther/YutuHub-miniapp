@@ -1,0 +1,6 @@
+<view
+  class="card card--{{variant}} card--r-{{radius}} card--p-{{padding}} {{pressable ? 'card--pressable' : ''}}"
+  bindtap="onTap"
+>
+  <slot />
+</view>

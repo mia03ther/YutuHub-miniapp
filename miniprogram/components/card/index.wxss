@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.card {
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  box-shadow: 0 10rpx 34rpx rgba(20, 19, 31, 0.06);
+}
+
+.card--plain {
+  background: #FFFFFF;
+}
+
+.card--flat {
+  background: #FFFFFF;
+  box-shadow: none;
+  border: 1rpx solid #EDEDF3;
+}
+
+.card--sunken {
+  background: #F6F6FA;
+  box-shadow: none;
+}
+
+.card--glass {
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: none;
+  border: 1rpx solid rgba(255, 255, 255, 0.6);
+}
+
+.card--r-none {
+  border-radius: 0;
+}
+
+.card--r-sm {
+  border-radius: 16rpx;
+}
+
+.card--r-md {
+  border-radius: 32rpx;
+}
+
+.card--r-lg {
+  border-radius: 36rpx;
+}
+
+.card--r-xl {
+  border-radius: 40rpx;
+}
+
+.card--r-pill {
+  border-radius: 999rpx;
+}
+
+.card--p-none {
+  padding: 0;
+}
+
+.card--p-sm {
+  padding: 20rpx;
+}
+
+.card--p-md {
+  padding: 30rpx;
+}
+
+.card--p-lg {
+  padding: 38rpx;
+}
+
+.card--pressable {
+  transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+.card--pressable:active {
+  transform: scale(0.975);
+  opacity: 0.9;
+}

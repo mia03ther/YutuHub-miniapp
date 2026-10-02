@@ -1,0 +1,35 @@
+<view class="tabbar">
+  <view class="tabbar-list">
+    <view
+      wx:for="{{list}}"
+      wx:key="pagePath"
+      class="tab {{selected === index ? 'tab--active' : ''}}"
+      data-index="{{index}}"
+      bindtap="onTap"
+      hover-class="tab--hover"
+      hover-stay-time="80"
+    >
+      <view class="tab-icon">
+        <block wx:if="{{index === 0}}">
+          <view class="ico ico-home">
+            <view class="ico-roof"></view>
+            <view class="ico-body"></view>
+          </view>
+        </block>
+        <block wx:elif="{{index === 1}}">
+          <view class="ico ico-compass">
+            <view class="ico-needle"></view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="ico ico-user">
+            <view class="ico-head"></view>
+            <view class="ico-torso"></view>
+          </view>
+        </block>
+      </view>
+
+      <text class="tab-text">{{item.text}}</text>
+    </view>
+  </view>
+</view>

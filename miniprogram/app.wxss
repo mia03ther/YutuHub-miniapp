@@ -1,10 +1,128 @@
-/**app.wxss**/
-.container {
-  height: 100%;
+page {
+  --brand-purple: #6C5CE7;
+  --brand-purple-deep: #4B3FCF;
+  --brand-purple-soft: #EFEDFF;
+  --brand-orange: #FF7A45;
+  --brand-orange-soft: #FFF0E8;
+  --brand-mint: #16C79A;
+  --brand-mint-soft: #E3F8F1;
+  --brand-pink: #FF5C8A;
+  --brand-pink-soft: #FFECF2;
+  --brand-blue: #3D8BFF;
+  --brand-blue-soft: #E8F1FF;
+  --ink-900: #14131F;
+  --ink-700: #3D3A52;
+  --ink-500: #6E6A85;
+  --ink-400: #8F8BA6;
+  --ink-300: #A5A1B8;
+  --line: #EDEDF3;
+  --line-strong: #E3E2EC;
+  --surface: #FFFFFF;
+  --surface-sunken: #F6F6FA;
+  --radius-xl: 40rpx;
+  --radius-lg: 32rpx;
+  --radius-md: 24rpx;
+  --radius-sm: 16rpx;
+  --shadow-card: 0 10rpx 34rpx rgba(20, 19, 31, 0.06);
+  --shadow-float: 0 16rpx 44rpx rgba(20, 19, 31, 0.1);
+
+  background: var(--surface-sunken);
+  color: var(--ink-900);
+  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 0 32rpx 48rpx;
+}
+
+.section {
+  margin-top: 48rpx;
+}
+
+.section-head {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
-  box-sizing: border-box;
-} 
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  letter-spacing: -0.5rpx;
+  color: var(--ink-900);
+}
+
+.section-desc {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: var(--ink-400);
+}
+
+.section-action {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: var(--ink-400);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 44rpx;
+  padding: 0 20rpx;
+  border-radius: 22rpx;
+  background: var(--brand-purple-soft);
+  color: var(--brand-purple);
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.pill-orange {
+  background: var(--brand-orange-soft);
+  color: var(--brand-orange);
+}
+
+.pressable {
+  transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+.pressable:active {
+  transform: scale(0.975);
+  opacity: 0.88;
+}
+
+.divider {
+  height: 1rpx;
+  background: var(--line);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #F0F0F5 25%, #F8F8FB 37%, #F0F0F5 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shine 1.4s ease infinite;
+}
+
+@keyframes skeleton-shine {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(24rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

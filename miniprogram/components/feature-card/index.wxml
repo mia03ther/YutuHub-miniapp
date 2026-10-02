@@ -1,0 +1,24 @@
+<card
+  variant="plain"
+  padding="none"
+  radius="md"
+  pressable="{{true}}"
+  bind:tap="onTap"
+>
+  <view class="feature feature--{{layout}}">
+    <view class="feature-icon feature-icon--{{tone}} {{layout === 'wide' ? 'feature-icon--lg' : ''}}">
+      <text>{{icon}}</text>
+      <view wx:if="{{badge}}" class="feature-badge">{{badge}}</view>
+    </view>
+
+    <view class="feature-body">
+      <text class="feature-title">{{title}}</text>
+      <text wx:if="{{desc}}" class="feature-desc">{{desc}}</text>
+    </view>
+
+    <view wx:if="{{layout === 'wide'}}" class="feature-arrow">
+      <view class="arrow-line"></view>
+      <view class="arrow-head"></view>
+    </view>
+  </view>
+</card>

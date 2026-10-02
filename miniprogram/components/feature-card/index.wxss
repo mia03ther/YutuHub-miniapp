@@ -1,0 +1,133 @@
+:host {
+  display: block;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 16rpx;
+  box-sizing: border-box;
+}
+
+.feature--wide {
+  flex-direction: row;
+  align-items: center;
+  padding: 32rpx 30rpx;
+}
+
+.feature-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 26rpx;
+  font-size: 40rpx;
+  line-height: 1;
+}
+
+.feature-icon--lg {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 30rpx;
+  font-size: 46rpx;
+}
+
+.feature-icon--purple {
+  background: #EFEDFF;
+}
+
+.feature-icon--orange {
+  background: #FFF0E8;
+}
+
+.feature-icon--mint {
+  background: #E3F8F1;
+}
+
+.feature-icon--pink {
+  background: #FFECF2;
+}
+
+.feature-icon--blue {
+  background: #E8F1FF;
+}
+
+.feature-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  padding: 0 12rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  border-radius: 15rpx;
+  background: #FF5C8A;
+  color: #FFFFFF;
+  font-size: 18rpx;
+  font-weight: 600;
+}
+
+.feature-body {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature--wide .feature-body {
+  margin-top: 0;
+  margin-left: 26rpx;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #14131F;
+  letter-spacing: -0.2rpx;
+  text-align: center;
+}
+
+.feature--wide .feature-title {
+  font-size: 30rpx;
+  text-align: left;
+}
+
+.feature-desc {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #8F8BA6;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.feature--wide .feature-desc {
+  text-align: left;
+}
+
+.feature-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.arrow-line {
+  width: 20rpx;
+  height: 3rpx;
+  border-radius: 2rpx;
+  background: #C9C6D8;
+}
+
+.arrow-head {
+  width: 12rpx;
+  height: 12rpx;
+  margin-left: -3rpx;
+  border-top: 3rpx solid #C9C6D8;
+  border-right: 3rpx solid #C9C6D8;
+  transform: rotate(45deg);
+}

@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+.navbar {
+  width: 100%;
+  background: #FFFFFF;
+  z-index: 100;
+}
+
+.navbar--sticky {
+  position: sticky;
+  top: 0;
+}
+
+.navbar--bordered {
+  border-bottom: 1rpx solid #F1F1F6;
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 22rpx 32rpx;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76rpx;
+  height: 76rpx;
+  flex-shrink: 0;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, #6C5CE7 0%, #8B7BFF 55%, #FF7A45 140%);
+  box-shadow: 0 8rpx 20rpx rgba(108, 92, 231, 0.28);
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.navbar-text {
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.navbar-text--solo {
+  margin-left: 0;
+  flex: 1;
+}
+
+.navbar-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #14131F;
+  letter-spacing: -0.4rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar-subtitle {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #8F8BA6;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar-extra {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 20rpx;
+}

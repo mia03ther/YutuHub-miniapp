@@ -1,0 +1,149 @@
+<view class="page explore">
+  <navbar title="探索" subtitle="找到你的同频频道" logoText="探" bordered="{{false}}" />
+
+  <view class="search pressable" bindtap="onSearchTap">
+    <view class="search-icon">
+      <view class="search-ring"></view>
+      <view class="search-stick"></view>
+    </view>
+    <text class="search-placeholder">搜索频道、话题、同学</text>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">精选频道</text>
+        <text class="section-desc">四大场景，随时开聊</text>
+      </view>
+    </view>
+
+    <view class="channels">
+      <view wx:for="{{channels}}" wx:key="key" class="channel-item">
+        <card
+          variant="plain"
+          radius="xl"
+          padding="none"
+          pressable="{{true}}"
+          data-title="{{item.title}}"
+          bind:tap="onChannelTap"
+        >
+          <view class="channel channel--{{item.tone}}">
+            <view class="channel-top">
+              <view class="channel-icon">{{item.emoji}}</view>
+              <view class="channel-count">{{item.count}}</view>
+            </view>
+            <text class="channel-title">{{item.title}}</text>
+            <text class="channel-desc">{{item.desc}}</text>
+            <view class="channel-tags">
+              <text wx:for="{{item.hot}}" wx:for-item="tag" wx:key="*this" class="channel-tag">{{tag}}</text>
+            </view>
+          </view>
+        </card>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">热门话题</text>
+        <text class="section-desc">按热度实时更新</text>
+      </view>
+    </view>
+
+    <scroll-view class="topic-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="topic-row">
+        <view
+          wx:for="{{topics}}"
+          wx:key="*this"
+          class="topic {{activeTopic === item ? 'topic--active' : ''}} pressable"
+          data-topic="{{item}}"
+          bindtap="onTopicTap"
+        >
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">编辑精选</text>
+        <text class="section-desc">本周同学收藏最多</text>
+      </view>
+      <view class="section-action" bindtap="onPickTap">
+        <text>更多</text>
+        <view class="chevron"></view>
+      </view>
+    </view>
+
+    <view class="picks">
+      <view wx:for="{{picks}}" wx:key="id" class="pick-item">
+        <card
+          variant="flat"
+          radius="md"
+          padding="none"
+          pressable="{{true}}"
+          bind:tap="onPickTap"
+        >
+          <view class="pick">
+            <view class="pick-icon pick-icon--{{item.tone}}">{{item.emoji}}</view>
+            <view class="pick-body">
+              <text class="pick-title">{{item.title}}</text>
+              <text class="pick-desc">{{item.desc}}</text>
+            </view>
+          </view>
+        </card>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">最新讨论</text>
+        <text class="section-desc">来自 {{activeTopic}} 频道</text>
+      </view>
+      <view class="follow pressable" bindtap="onToggleFollow">
+        <text>{{following ? '已关注' : '+ 关注'}}</text>
+      </view>
+    </view>
+
+    <view class="discussions">
+      <view wx:for="{{feed}}" wx:key="id" class="discussion-item">
+        <card
+          variant="plain"
+          radius="md"
+          padding="md"
+          pressable="{{true}}"
+          bind:tap="onFeedTap"
+        >
+          <view class="discussion">
+            <view class="discussion-avatar discussion-avatar--{{item.avatarTone}}">{{item.avatar}}</view>
+            <view class="discussion-body">
+              <view class="discussion-head">
+                <text class="discussion-author">{{item.author}}</text>
+                <text class="discussion-time">{{item.time}}</text>
+              </view>
+              <text class="discussion-title">{{item.title}}</text>
+              <view class="discussion-foot">
+                <text class="discussion-channel">{{item.channel}}</text>
+                <text class="discussion-meta">💬 {{item.comments}} · ❤️ {{item.likes}}</text>
+              </view>
+            </view>
+          </view>
+        </card>
+      </view>
+    </view>
+  </view>
+
+  <view class="join">
+    <view class="join-glow"></view>
+    <text class="join-title">还没有你所属的圈子？</text>
+    <text class="join-desc">提交申请，我们将在 1 个工作日内创建频道</text>
+    <view class="join-btn pressable" bindtap="onPickTap">
+      <text>创建新频道</text>
+    </view>
+  </view>
+</view>

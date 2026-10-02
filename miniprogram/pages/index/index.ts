@@ -1,140 +1,100 @@
-const app = getApp<IAppOption>()
+import {
+  FEATURE_ENTRIES,
+  FEED_ITEMS,
+  MOCK_USER,
+  RECOMMEND_ITEMS,
+  greetingByHour
+} from '../../data/mock'
 
-Component({
-
+Page({
   data: {
-
-    // 首页标题
-    title: "屿途校园",
-
-    subtitle: "连接校园生活，发现身边精彩",
-
-    // API返回的数据
-    posts: [],
-
-    loading: true,
-
-    error: ""
-
+    greeting: '',
+    user: MOCK_USER,
+    features: FEATURE_ENTRIES,
+    feed: FEED_ITEMS,
+    recommends: RECOMMEND_ITEMS
   },
 
-
-  lifetimes: {
-
-    attached() {
-
-      this.loadPosts()
-
-    }
-
+  onLoad() {
+    this.setData({
+      greeting: greetingByHour(new Date().getHours())
+    })
   },
 
-
-  methods: {
-
-
-    // 请求YutuHub后端
-    loadPosts() {
-
-
-      wx.request({
-
-        url:
-          app.globalData.apiBase + "/posts?sort=latest",
-
-
-        method: "GET",
-
-
-        success: (res:any)=>{
-
-
-          console.log("YutuHub API:", res.data)
-
-
-          if(res.data){
-
-
-            this.setData({
-
-              posts: res.data.items || [],
-
-              loading:false
-
-            })
-
-
-          }
-
-
-        },
-
-
-        fail:(err)=>{
-
-
-          console.error("API请求失败:",err)
-
-
-          this.setData({
-
-            error:"服务器连接失败",
-
-            loading:false
-
-          })
-
-
-        }
-
-
-      })
-
-    },
-
-
-    // 点击刷新
-    refresh(){
-
-      this.setData({
-
-        loading:true
-
-      })
-
-
-      this.loadPosts()
-
-    },
-
-
-    // 跳转发布
-    createPost(){
-
-      wx.showToast({
-
-        title:"发布功能开发中",
-
-        icon:"none"
-
-      })
-
-    },
-
-
-    // 跳转详情
-    viewPost(e:any){
-
-
-      const id=e.currentTarget.dataset.id
-
-
-      console.log("查看帖子:",id)
-
-
+  onShow() {
+    const tabBar = this.getTabBar() as unknown as {
+      setData: (data: Record<string, unknown>) => void
+    } | undefined
+    if (tabBar) {
+      tabBar.setData({ selected: 0 })
     }
+  },
 
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh()
+    wx.showToast({
+      title: '已是最新内容',
+      icon: 'none'
+    })
+  },
 
+  gotoExplore() {
+    wx.switchTab({ url: '/pages/explore/explore' })
+  },
+
+  gotoProfile() {
+    wx.switchTab({ url: '/pages/profile/profile' })
+  },
+
+  onSearchTap() {
+    wx.showToast({
+      title: '搜索功能开发中',
+      icon: 'none'
+    })
+  },
+
+  onFeatureSelect(e: WechatMiniprogram.CustomEvent) {
+    const title = e.detail ? e.detail.title : ''
+    wx.showToast({
+      title: `${title} 频道开发中`,
+      icon: 'none'
+    })
+  },
+
+  onFeedTap(e: WechatMiniprogram.TouchEvent) {
+    const id = e.currentTarget.dataset.id
+    wx.showToast({
+      title: `内容 ${id}`,
+      icon: 'none'
+    })
+  },
+
+  onToggleLike(e: WechatMiniprogram.TouchEvent) {
+    const id = String(e.currentTarget.dataset.id)
+    const feed = this.data.feed.map((item) => {
+      if (item.id !== id) {
+        return { ...item }
+      }
+      return {
+        ...item,
+        liked: !item.liked,
+        likes: item.liked ? item.likes - 1 : item.likes + 1
+      }
+    })
+    this.setData({ feed })
+  },
+
+  onRecommendTap() {
+    wx.showToast({
+      title: '资料详情开发中',
+      icon: 'none'
+    })
+  },
+
+  onMoreTap() {
+    wx.showToast({
+      title: '更多内容开发中',
+      icon: 'none'
+    })
   }
-
 })
