@@ -1,5 +1,9 @@
 <view class="navbar {{sticky ? 'navbar--sticky' : ''}} {{bordered ? 'navbar--bordered' : ''}}">
   <view class="navbar-inner">
+    <view wx:if="{{showBack}}" class="navbar-back" bindtap="onBack" hover-class="navbar-back--hover">
+      <view class="back-arrow"></view>
+    </view>
+
     <view wx:if="{{showLogo}}" class="navbar-brand">
       <view class="navbar-logo">
         <text>{{logoText}}</text>

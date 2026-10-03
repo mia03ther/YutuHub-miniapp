@@ -27,6 +27,10 @@ Component({
     bordered: {
       type: Boolean,
       value: true
+    },
+    showBack: {
+      type: Boolean,
+      value: false
     }
   },
 

@@ -6,14 +6,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30rpx 16rpx;
+  padding: 28rpx 16rpx;
   box-sizing: border-box;
 }
 
 .feature--wide {
   flex-direction: row;
   align-items: center;
-  padding: 32rpx 30rpx;
+  padding: 28rpx 24rpx;
 }
 
 .feature-icon {
@@ -21,38 +21,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 84rpx;
-  height: 84rpx;
-  border-radius: 26rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  background: var(--surface-sunken);
   font-size: 40rpx;
   line-height: 1;
 }
 
 .feature-icon--lg {
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 30rpx;
-  font-size: 46rpx;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 22rpx;
+  font-size: 44rpx;
 }
 
 .feature-icon--purple {
-  background: #EFEDFF;
+  background: #F0F0FF;
 }
 
 .feature-icon--orange {
-  background: #FFF0E8;
+  background: #FFF1ED;
 }
 
 .feature-icon--mint {
-  background: #E3F8F1;
+  background: #EDFBF6;
 }
 
 .feature-icon--pink {
-  background: #FFECF2;
+  background: #FFF0F3;
 }
 
 .feature-icon--blue {
-  background: #E8F1FF;
+  background: #EFF5FF;
 }
 
 .feature-badge {
@@ -63,14 +64,14 @@
   height: 30rpx;
   line-height: 30rpx;
   border-radius: 15rpx;
-  background: #FF5C8A;
+  background: var(--brand);
   color: #FFFFFF;
   font-size: 18rpx;
   font-weight: 600;
 }
 
 .feature-body {
-  margin-top: 20rpx;
+  margin-top: 18rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,7 +79,7 @@
 
 .feature--wide .feature-body {
   margin-top: 0;
-  margin-left: 26rpx;
+  margin-left: 22rpx;
   align-items: flex-start;
   flex: 1;
 }
@@ -86,7 +87,7 @@
 .feature-title {
   font-size: 26rpx;
   font-weight: 600;
-  color: #14131F;
+  color: var(--ink-900);
   letter-spacing: -0.2rpx;
   text-align: center;
 }
@@ -97,9 +98,9 @@
 }
 
 .feature-desc {
-  margin-top: 8rpx;
+  margin-top: 6rpx;
   font-size: 22rpx;
-  color: #8F8BA6;
+  color: var(--ink-400);
   line-height: 1.4;
   text-align: center;
 }
@@ -120,14 +121,14 @@
   width: 20rpx;
   height: 3rpx;
   border-radius: 2rpx;
-  background: #C9C6D8;
+  background: var(--ink-300);
 }
 
 .arrow-head {
   width: 12rpx;
   height: 12rpx;
   margin-left: -3rpx;
-  border-top: 3rpx solid #C9C6D8;
-  border-right: 3rpx solid #C9C6D8;
+  border-top: 3rpx solid var(--ink-300);
+  border-right: 3rpx solid var(--ink-300);
   transform: rotate(45deg);
 }

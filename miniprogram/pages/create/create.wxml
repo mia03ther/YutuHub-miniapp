@@ -1,0 +1,116 @@
+<view class="page create">
+  <navbar title="发布校园动态" subtitle="分享校园里的新鲜事" logoText="屿" showBack="{{true}}" bordered="{{false}}" />
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">选择类型</text>
+        <text class="section-desc">选一个频道，让内容被对的人看到</text>
+      </view>
+    </view>
+
+    <view class="cat-list">
+      <view wx:for="{{categories}}" wx:key="key" class="cat-item {{selectedKey === item.key ? 'cat-item--on' : ''}}">
+        <view class="cat-press pressable" data-key="{{item.key}}" bindtap="onSelectCategory">
+          <view class="cat-icon-wrap">{{item.icon}}</view>
+          <view class="cat-body">
+            <text class="cat-title">{{item.title}}</text>
+            <text class="cat-desc">{{item.desc}}</text>
+          </view>
+          <view wx:if="{{selectedKey === item.key}}" class="cat-check">✓</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">内容</text>
+        <text class="section-desc">标题和正文都是必填项</text>
+      </view>
+    </view>
+
+    <card variant="plain" radius="xl" padding="lg">
+      <input
+        class="title-input"
+        value="{{title}}"
+        maxlength="30"
+        placeholder="一句话说清楚你在分享什么"
+        placeholder-class="field-ph"
+        bindinput="onTitleInput"
+      />
+
+      <view class="field-foot">
+        <text class="field-count">{{title.length}} / {{maxTitle}}</text>
+      </view>
+
+      <view class="field-line"></view>
+
+      <textarea
+        class="content-input"
+        value="{{content}}"
+        maxlength="500"
+        placeholder="展开说说细节：时间、地点、怎么联系你…"
+        placeholder-class="field-ph"
+        auto-height
+        bindinput="onContentInput"
+      />
+
+      <view class="field-foot">
+        <view class="field-foot-left">
+          <text wx:if="{{draftSaved}}" class="field-draft">草稿已自动保存</text>
+          <text wx:if="{{draftSaved}}" class="field-draft-clear pressable" bindtap="onDiscardDraft">清空</text>
+        </view>
+        <text class="field-count">{{content.length}} / {{maxContent}}</text>
+      </view>
+    </card>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">图片</text>
+        <text class="section-desc">最多 {{maxImages}} 张，当前为演示占位</text>
+      </view>
+    </view>
+
+    <view class="images">
+      <view
+        wx:for="{{images}}"
+        wx:key="*this"
+        wx:for-index="imgIndex"
+        class="image-item pressable"
+        data-index="{{imgIndex}}"
+        bindtap="onRemoveImage"
+      >
+        <text class="image-icon">+</text>
+        <view class="image-remove"><text>×</text></view>
+      </view>
+
+      <view wx:if="{{images.length < maxImages}}" class="image-add pressable" bindtap="onAddImage">
+        <text class="image-add-plus">+</text>
+        <text class="image-add-text">添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <card variant="plain" radius="lg" padding="md">
+      <view class="author-line">
+        <view class="author-avatar">{{me.avatar || '屿'}}</view>
+        <view class="author-body">
+          <text class="author-name">{{me.nickname}}</text>
+          <text class="author-meta">{{me.school}}</text>
+        </view>
+        <text class="author-tag">以该身份发布</text>
+      </view>
+    </card>
+  </view>
+
+  <view class="submit pressable {{submitting ? 'submit--busy' : ''}}" bindtap="onSubmit">
+    <text>{{submitting ? '发布中…' : '发布'}}</text>
+  </view>
+
+  <text class="submit-tip">演示版本 · 内容仅保存在本地，不会提交到服务器</text>
+</view>

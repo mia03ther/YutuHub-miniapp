@@ -1,5 +1,5 @@
 <view class="page explore">
-  <navbar title="探索" subtitle="找到你的同频频道" logoText="探" bordered="{{false}}" />
+  <navbar title="发现" subtitle="找到你的同频频道" logoText="探" bordered="{{false}}" />
 
   <view class="search pressable" bindtap="onSearchTap">
     <view class="search-icon">
@@ -19,26 +19,16 @@
 
     <view class="channels">
       <view wx:for="{{channels}}" wx:key="key" class="channel-item">
-        <card
-          variant="plain"
-          radius="xl"
-          padding="none"
-          pressable="{{true}}"
-          data-title="{{item.title}}"
-          bind:tap="onChannelTap"
-        >
-          <view class="channel channel--{{item.tone}}">
-            <view class="channel-top">
-              <view class="channel-icon">{{item.emoji}}</view>
-              <view class="channel-count">{{item.count}}</view>
-            </view>
-            <text class="channel-title">{{item.title}}</text>
-            <text class="channel-desc">{{item.desc}}</text>
-            <view class="channel-tags">
-              <text wx:for="{{item.hot}}" wx:for-item="tag" wx:key="*this" class="channel-tag">{{tag}}</text>
-            </view>
+        <view class="channel-press pressable" data-title="{{item.title}}" bindtap="onChannelTap">
+          <view class="channel-top">
+            <view class="channel-icon-wrap">{{item.icon}}</view>
           </view>
-        </card>
+          <text class="channel-title">{{item.title}}</text>
+          <text class="channel-desc">{{item.desc}}</text>
+          <view class="channel-tags">
+            <text wx:for="{{item.topics}}" wx:for-item="tag" wx:key="*this" class="channel-tag">{{tag}}</text>
+          </view>
+        </view>
       </view>
     </view>
   </view>
@@ -51,11 +41,19 @@
       </view>
     </view>
 
-    <scroll-view class="topic-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+    <scroll-view
+      class="topic-scroll"
+      scroll-x
+      enhanced
+      show-scrollbar="{{false}}"
+      scroll-into-view="{{activeTopicId}}"
+      scroll-with-animation="{{true}}"
+    >
       <view class="topic-row">
         <view
           wx:for="{{topics}}"
           wx:key="*this"
+          id="topic-{{item}}"
           class="topic {{activeTopic === item ? 'topic--active' : ''}} pressable"
           data-topic="{{item}}"
           bindtap="onTopicTap"
@@ -80,21 +78,13 @@
 
     <view class="picks">
       <view wx:for="{{picks}}" wx:key="id" class="pick-item">
-        <card
-          variant="flat"
-          radius="md"
-          padding="none"
-          pressable="{{true}}"
-          bind:tap="onPickTap"
-        >
-          <view class="pick">
-            <view class="pick-icon pick-icon--{{item.tone}}">{{item.emoji}}</view>
-            <view class="pick-body">
-              <text class="pick-title">{{item.title}}</text>
-              <text class="pick-desc">{{item.desc}}</text>
-            </view>
+        <view class="pick-card pressable" bindtap="onPickTap">
+          <view class="pick-icon-wrap pick-icon-wrap--{{item.tone}}">{{item.meta[0]}}</view>
+          <view class="pick-body">
+            <text class="pick-title">{{item.title}}</text>
+            <text class="pick-desc">{{item.desc}}</text>
           </view>
-        </card>
+        </view>
       </view>
     </view>
   </view>
@@ -110,15 +100,36 @@
       </view>
     </view>
 
-    <view class="discussions">
+    <block wx:if="{{loading}}">
+      <view class="discussion-item">
+        <view class="feed-card">
+          <view class="skeleton-row">
+            <view class="skeleton skeleton-avatar"></view>
+            <view class="skeleton skeleton-lines">
+              <view class="skeleton skeleton-line skeleton-line--sm"></view>
+              <view class="skeleton skeleton-line skeleton-line--lg"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:elif="{{error}}" class="state">
+      <text class="state-title">加载失败</text>
+      <text class="state-desc">{{error}}</text>
+      <view class="state-btn pressable" bindtap="onRetry">
+        <text>重新加载</text>
+      </view>
+    </view>
+
+    <view wx:elif="{{!feed.length}}" class="state">
+      <text class="state-title">该频道还没有讨论</text>
+      <text class="state-desc">来发第一条，让圈子热起来</text>
+    </view>
+
+    <view wx:else class="discussions">
       <view wx:for="{{feed}}" wx:key="id" class="discussion-item">
-        <card
-          variant="plain"
-          radius="md"
-          padding="md"
-          pressable="{{true}}"
-          bind:tap="onFeedTap"
-        >
+        <view class="feed-card pressable" data-detail="{{item.detailId}}" bindtap="onFeedTap">
           <view class="discussion">
             <view class="discussion-avatar discussion-avatar--{{item.avatarTone}}">{{item.avatar}}</view>
             <view class="discussion-body">
@@ -129,21 +140,12 @@
               <text class="discussion-title">{{item.title}}</text>
               <view class="discussion-foot">
                 <text class="discussion-channel">{{item.channel}}</text>
-                <text class="discussion-meta">💬 {{item.comments}} · ❤️ {{item.likes}}</text>
+                <text class="discussion-meta">◧ {{item.comments}} · ♡ {{item.likes}}</text>
               </view>
             </view>
           </view>
-        </card>
+        </view>
       </view>
-    </view>
-  </view>
-
-  <view class="join">
-    <view class="join-glow"></view>
-    <text class="join-title">还没有你所属的圈子？</text>
-    <text class="join-desc">提交申请，我们将在 1 个工作日内创建频道</text>
-    <view class="join-btn pressable" bindtap="onPickTap">
-      <text>创建新频道</text>
     </view>
   </view>
 </view>

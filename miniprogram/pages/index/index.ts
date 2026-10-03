@@ -1,24 +1,34 @@
 import {
+  BRAND,
   FEATURE_ENTRIES,
-  FEED_ITEMS,
   MOCK_USER,
-  RECOMMEND_ITEMS,
+  RECOMMEND_GROUPS,
+  RecommendGroup,
   greetingByHour
-} from '../../data/mock'
+} from '../../data'
+import type { FeedItem, RecommendItem } from '../../data'
+import { fetchFeed, fetchRecommends } from '../../services/feed'
 
 Page({
   data: {
+    brand: BRAND,
     greeting: '',
     user: MOCK_USER,
     features: FEATURE_ENTRIES,
-    feed: FEED_ITEMS,
-    recommends: RECOMMEND_ITEMS
+    feed: [] as FeedItem[],
+    loading: true,
+    error: '',
+    recommendGroups: RECOMMEND_GROUPS,
+    activeGroup: RECOMMEND_GROUPS[0],
+    recommends: [] as RecommendItem[]
   },
 
   onLoad() {
     this.setData({
       greeting: greetingByHour(new Date().getHours())
     })
+    this.loadFeed()
+    this.loadRecommends()
   },
 
   onShow() {
@@ -30,12 +40,37 @@ Page({
     }
   },
 
+  loadFeed() {
+    this.setData({ loading: true, error: '' })
+
+    fetchFeed({ limit: 20 })
+      .then((result) => {
+        this.setData({ feed: result.items, loading: false })
+      })
+      .catch((err: Error) => {
+        this.setData({ loading: false, error: err.message })
+      })
+  },
+
+  loadRecommends(group?: string) {
+    fetchRecommends(group)
+      .then((recommends) => {
+        this.setData({ recommends })
+      })
+      .catch((err: Error) => {
+        wx.showToast({ title: err.message, icon: 'none' })
+      })
+  },
+
+  onRetry() {
+    this.loadFeed()
+  },
+
   onPullDownRefresh() {
-    wx.stopPullDownRefresh()
-    wx.showToast({
-      title: '已是最新内容',
-      icon: 'none'
-    })
+    this.loadFeed()
+    setTimeout(() => {
+      wx.stopPullDownRefresh()
+    }, 600)
   },
 
   gotoExplore() {
@@ -54,19 +89,17 @@ Page({
   },
 
   onFeatureSelect(e: WechatMiniprogram.CustomEvent) {
-    const title = e.detail ? e.detail.title : ''
-    wx.showToast({
-      title: `${title} 频道开发中`,
-      icon: 'none'
-    })
+    const key = String(e.currentTarget.dataset.key || '')
+    if (!key) {
+      return
+    }
+    getApp<IAppOption>().globalData.pendingChannel = key
+    wx.switchTab({ url: '/pages/explore/explore' })
   },
 
   onFeedTap(e: WechatMiniprogram.TouchEvent) {
-    const id = e.currentTarget.dataset.id
-    wx.showToast({
-      title: `内容 ${id}`,
-      icon: 'none'
-    })
+    const detailId = String(e.currentTarget.dataset.detail || '')
+    wx.navigateTo({ url: `/pages/detail/detail?id=${detailId}` })
   },
 
   onToggleLike(e: WechatMiniprogram.TouchEvent) {
@@ -84,11 +117,17 @@ Page({
     this.setData({ feed })
   },
 
-  onRecommendTap() {
-    wx.showToast({
-      title: '资料详情开发中',
-      icon: 'none'
-    })
+  onRecommendGroupTap(e: WechatMiniprogram.TouchEvent) {
+    const group = String(
+      e.currentTarget.dataset.group
+    ) as RecommendGroup
+    this.setData({ activeGroup: group })
+    this.loadRecommends(group)
+  },
+
+  onRecommendTap(e: WechatMiniprogram.TouchEvent) {
+    const detailId = String(e.currentTarget.dataset.detail || '')
+    wx.navigateTo({ url: `/pages/detail/detail?id=${detailId}` })
   },
 
   onMoreTap() {

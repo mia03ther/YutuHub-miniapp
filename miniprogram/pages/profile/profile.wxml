@@ -3,8 +3,6 @@
 
   <card variant="plain" radius="xl" padding="none">
     <view class="profile-head">
-      <view class="profile-glow"></view>
-
       <view class="profile-top">
         <view class="avatar-wrap">
           <image wx:if="{{user.avatar}}" class="avatar-img" src="{{user.avatar}}" mode="aspectFill" />
@@ -68,14 +66,15 @@
     </view>
   </view>
 
-  <view class="ai-lab pressable" bindtap="onAiLabTap">
-    <view class="ai-glow"></view>
-    <view class="ai-icon">✨</view>
-    <view class="ai-body">
-      <text class="ai-title">屿途 AI 创作台</text>
-      <text class="ai-desc">一句话生成笔记、简历、社团招新文案</text>
+  <view class="publish pressable" bindtap="onPublishTap">
+    <view class="publish-icon-wrap">
+      <text class="publish-icon-text">写</text>
     </view>
-    <view class="ai-cta">立即体验</view>
+    <view class="publish-body">
+      <text class="publish-title">发布校园动态</text>
+      <text class="publish-desc">分享闲置、资料、吐槽或求助，让价值流动起来</text>
+    </view>
+    <view class="publish-cta">去发布</view>
   </view>
 
   <view class="section">
@@ -85,7 +84,7 @@
 
     <view class="menus">
       <view wx:for="{{menus}}" wx:key="key" class="menu-item pressable" data-label="{{item.label}}" bindtap="onMenuTap">
-        <view class="menu-icon menu-icon--{{item.tone}}">{{item.emoji}}</view>
+        <view class="menu-icon menu-icon--{{item.tone}}">{{item.icon}}</view>
         <text class="menu-label">{{item.label}}</text>
         <text class="menu-value">{{item.value}}</text>
         <view class="menu-arrow"></view>
@@ -106,7 +105,7 @@
         data-label="{{item.label}}"
         bindtap="onMenuTap"
       >
-        <view class="menu-icon menu-icon--{{item.tone}}">{{item.emoji}}</view>
+        <view class="menu-icon menu-icon--{{item.tone}}">{{item.icon}}</view>
         <text class="menu-label">{{item.label}}</text>
         <text wx:if="{{item.value}}" class="menu-value">{{item.value}}</text>
         <view class="menu-arrow"></view>
@@ -118,5 +117,5 @@
     <text>退出登录</text>
   </view>
 
-  <text class="version">YutuHub MiniApp · v0.1.0</text>
+  <text class="version">屿途校园 · v0.2.0</text>
 </view>

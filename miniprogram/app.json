@@ -2,21 +2,23 @@
   "pages": [
     "pages/index/index",
     "pages/explore/explore",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/detail/detail",
+    "pages/create/create"
   ],
   "window": {
     "navigationStyle": "default",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "YutuHub 屿途校园",
+    "navigationBarTitleText": "屿途校园",
     "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#F6F6FA",
+    "backgroundColor": "#F7F7F5",
     "backgroundTextStyle": "dark",
     "enablePullDownRefresh": false
   },
   "tabBar": {
     "custom": true,
-    "color": "#A5A1B8",
-    "selectedColor": "#6C5CE7",
+    "color": "#9A9A9A",
+    "selectedColor": "#FF6B4A",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
@@ -26,7 +28,11 @@
       },
       {
         "pagePath": "pages/explore/explore",
-        "text": "探索"
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/create/create",
+        "text": "发布"
       },
       {
         "pagePath": "pages/profile/profile",

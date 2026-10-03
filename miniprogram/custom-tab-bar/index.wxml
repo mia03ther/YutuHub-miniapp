@@ -9,6 +9,8 @@
       hover-class="tab--hover"
       hover-stay-time="80"
     >
+      <view class="tab-indicator {{selected === index ? 'tab-indicator--on' : ''}}"></view>
+
       <view class="tab-icon">
         <block wx:if="{{index === 0}}">
           <view class="ico ico-home">
@@ -19,6 +21,12 @@
         <block wx:elif="{{index === 1}}">
           <view class="ico ico-compass">
             <view class="ico-needle"></view>
+          </view>
+        </block>
+        <block wx:elif="{{index === 2}}">
+          <view class="ico ico-plus">
+            <view class="ico-plus-line"></view>
+            <view class="ico-plus-line ico-plus-v"></view>
           </view>
         </block>
         <block wx:else>

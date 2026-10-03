@@ -1,8 +1,6 @@
 {
-  "navigationBarTitleText": "探索",
+  "navigationBarTitleText": "发现",
   "usingComponents": {
-    "navbar": "../../components/navbar/index",
-    "card": "../../components/card/index",
-    "feature-card": "../../components/feature-card/index"
+    "navbar": "../../components/navbar/index"
   }
 }

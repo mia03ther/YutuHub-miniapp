@@ -1,0 +1,115 @@
+<view class="page detail">
+  <navbar
+    title="{{detail.type}}"
+    subtitle="校园社区"
+    logoText="屿"
+    showBack="{{true}}"
+    bordered="{{false}}"
+  >
+    <view slot="extra" class="nav-share pressable" bindtap="onImageTap">
+      <text>···</text>
+    </view>
+  </navbar>
+
+  <view class="type-banner">
+    <text class="type-banner-label">{{detail.type}}</text>
+    <text class="type-banner-cta" bindtap="onTypeTap">进入频道 ›</text>
+  </view>
+
+  <view class="section">
+    <card variant="plain" radius="xl" padding="lg">
+      <text class="detail-title">{{detail.title}}</text>
+
+      <view class="author">
+        <view class="author-avatar author-avatar--{{detail.avatarTone}}">{{detail.avatar}}</view>
+        <view class="author-body">
+          <text class="author-name">{{detail.author}}</text>
+          <text class="author-meta">{{detail.school}} · {{detail.time}}</text>
+        </view>
+      </view>
+
+      <view class="content">
+        <text wx:for="{{paragraphs}}" wx:key="*this" class="content-para">{{item}}</text>
+      </view>
+
+      <view class="gallery">
+        <view wx:for="{{images}}" wx:key="*this" wx:for-index="imgIndex" class="gallery-item pressable"
+          bindtap="onImageTap"
+        >
+          <text class="gallery-icon">+</text>
+          <text class="gallery-index">{{imgIndex + 1}} / {{detail.imageCount}}</text>
+        </view>
+      </view>
+
+      <view class="tags">
+        <text wx:for="{{detail.tags}}" wx:for-item="tag" wx:key="*this" class="tag">#{{tag}}</text>
+      </view>
+    </card>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view>
+        <text class="section-title">评论</text>
+        <text class="section-desc">共 {{commentCount}} 条讨论</text>
+      </view>
+    </view>
+
+    <card variant="plain" radius="lg" padding="md">
+      <view class="composer">
+        <view class="composer-avatar">{{me.avatar || '屿'}}</view>
+        <input
+          class="composer-input"
+          value="{{commentDraft}}"
+          placeholder="说点什么，友善是第一位的"
+          placeholder-class="composer-ph"
+          confirm-type="send"
+          bindinput="onCommentInput"
+          bindconfirm="onSubmitComment"
+        />
+        <view class="composer-send pressable" bindtap="onSubmitComment">
+          <text>发送</text>
+        </view>
+      </view>
+    </card>
+
+    <view class="comments">
+      <view wx:for="{{comments}}" wx:key="id" class="comment-item">
+        <card variant="plain" radius="md" padding="md">
+          <view class="comment">
+            <view class="comment-avatar comment-avatar--{{item.avatarTone}}">{{item.avatar}}</view>
+            <view class="comment-body">
+              <view class="comment-head">
+                <text class="comment-author">{{item.author}}</text>
+                <text class="comment-time">{{item.time}}</text>
+              </view>
+              <text class="comment-text">{{item.content}}</text>
+              <view class="comment-foot">
+                <text class="comment-like">♡ {{item.likes}}</text>
+              </view>
+            </view>
+          </view>
+        </card>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">— 已经到底啦 —</text>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-item pressable {{liked ? 'is-on' : ''}}" bindtap="onToggleLike">
+      <text class="action-icon">{{liked ? '♡' : '♡'}}</text>
+      <text class="action-num">{{likes}}</text>
+    </view>
+    <view class="action-item pressable {{favorited ? 'is-on' : ''}}" bindtap="onToggleFavorite">
+      <text class="action-icon">{{favorited ? '★' : '☆'}}</text>
+      <text class="action-num">{{favorites}}</text>
+    </view>
+    <view class="action-item">
+      <text class="action-icon">◧</text>
+      <text class="action-num">{{commentCount}}</text>
+    </view>
+  </view>
+</view>

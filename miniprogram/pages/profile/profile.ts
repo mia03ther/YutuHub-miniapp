@@ -2,7 +2,7 @@ import {
   MOCK_USER,
   PROFILE_MENUS,
   PROFILE_SETTINGS
-} from '../../data/mock'
+} from '../../data'
 
 interface ProfileUser {
   nickname: string
@@ -99,6 +99,10 @@ Page({
       title: `${label}开发中`,
       icon: 'none'
     })
+  },
+
+  onPublishTap() {
+    wx.navigateTo({ url: '/pages/create/create' })
   },
 
   onAiLabTap() {

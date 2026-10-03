@@ -1,0 +1,264 @@
+.create {
+  padding-bottom: 80rpx;
+}
+
+.cat-item {
+  border-radius: 20rpx;
+  border: 2rpx solid transparent;
+  margin-bottom: 16rpx;
+  transition: border-color 0.18s ease;
+}
+
+.cat-item--on {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.cat-press {
+  display: flex;
+  align-items: center;
+  padding: 22rpx 24rpx;
+  border-radius: 18rpx;
+}
+
+.cat-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64rpx;
+  height: 64rpx;
+  flex-shrink: 0;
+  border-radius: 18rpx;
+  background: var(--surface-sunken);
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--ink-700);
+}
+
+.cat-body {
+  flex: 1;
+  min-width: 0;
+  margin-left: 18rpx;
+}
+
+.cat-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.cat-desc {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: var(--ink-400);
+}
+
+.cat-check {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #FFFFFF;
+  font-size: 22rpx;
+  font-weight: 700;
+  line-height: 40rpx;
+  text-align: center;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+.title-input {
+  width: 100%;
+  height: 68rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.field-ph {
+  color: var(--ink-300);
+  font-size: 26rpx;
+}
+
+.field-line {
+  height: 1rpx;
+  margin: 18rpx 0;
+  background: var(--line);
+}
+
+.content-input {
+  width: 100%;
+  min-height: 200rpx;
+  font-size: 27rpx;
+  color: var(--ink-700);
+  line-height: 1.7;
+}
+
+.field-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+}
+
+.field-foot-left {
+  display: flex;
+  align-items: center;
+}
+
+.field-draft {
+  font-size: 21rpx;
+  color: var(--brand);
+}
+
+.field-draft-clear {
+  margin-left: 14rpx;
+  font-size: 21rpx;
+  color: var(--ink-300);
+  text-decoration: underline;
+}
+
+.field-count {
+  font-size: 21rpx;
+  color: var(--ink-300);
+}
+
+.images {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-item {
+  position: relative;
+  width: 180rpx;
+  height: 150rpx;
+  margin: 0 14rpx 14rpx 0;
+  border-radius: 20rpx;
+  background: var(--surface-sunken);
+  border: 1rpx solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-icon {
+  font-size: 44rpx;
+  color: var(--ink-300);
+  line-height: 1;
+}
+
+.image-remove {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: var(--ink-900);
+  color: #FFFFFF;
+  font-size: 22rpx;
+  line-height: 36rpx;
+  text-align: center;
+}
+
+.image-add {
+  width: 180rpx;
+  height: 150rpx;
+  margin: 0 14rpx 14rpx 0;
+  border-radius: 20rpx;
+  border: 2rpx dashed var(--line-strong);
+  background: #FAFAF8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-add-plus {
+  font-size: 44rpx;
+  font-weight: 300;
+  color: var(--ink-300);
+  line-height: 1;
+}
+
+.image-add-text {
+  margin-top: 8rpx;
+  font-size: 21rpx;
+  color: var(--ink-300);
+}
+
+.author-line {
+  display: flex;
+  align-items: center;
+}
+
+.author-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64rpx;
+  height: 64rpx;
+  flex-shrink: 0;
+  border-radius: 20rpx;
+  background: var(--brand);
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.author-body {
+  flex: 1;
+  min-width: 0;
+  margin-left: 16rpx;
+}
+
+.author-name {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.author-meta {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  color: var(--ink-400);
+}
+
+.author-tag {
+  flex-shrink: 0;
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  background: var(--brand-soft);
+  font-size: 21rpx;
+  color: var(--brand);
+}
+
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 92rpx;
+  margin-top: 40rpx;
+  border-radius: 20rpx;
+  background: var(--brand);
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 1rpx;
+}
+
+.submit--busy {
+  opacity: 0.7;
+}
+
+.submit-tip {
+  display: block;
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: 21rpx;
+  color: var(--ink-300);
+}

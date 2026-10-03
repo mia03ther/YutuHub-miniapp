@@ -1,6 +1,5 @@
 {
-  "navigationBarTitleText": "屿途校园",
-  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "发布校园动态",
   "usingComponents": {
     "navbar": "../../components/navbar/index",
     "card": "../../components/card/index"

@@ -1,91 +1,47 @@
 <view class="page index">
-  <navbar title="YutuHub" subtitle="AI Native Campus" logoText="屿" bordered="{{false}}">
+  <navbar title="屿途校园" subtitle="发现校园里的每一份价值" logoText="屿" bordered="{{false}}">
     <view slot="extra" class="nav-action pressable" bindtap="gotoProfile">
-      <view class="nav-avatar nav-avatar--purple">屿</view>
+      <view class="nav-avatar">{{user.nickname[0]}}</view>
     </view>
   </navbar>
 
-  <view class="hero">
-    <view class="hero-glow hero-glow--a"></view>
-    <view class="hero-glow hero-glow--b"></view>
+  <view class="header">
+    <view class="header-title">{{brand.name}}</view>
+    <view class="header-desc">{{brand.slogan}}</view>
+  </view>
 
-    <view class="hero-badge">
-      <view class="hero-dot"></view>
-      <text>屿途大学 · 已服务 12,860 位同学</text>
+  <view class="search pressable" bindtap="onSearchTap">
+    <view class="search-icon">
+      <view class="search-ring"></view>
+      <view class="search-stick"></view>
     </view>
-
-    <view class="hero-title">屿途校园</view>
-    <view class="hero-desc">{{greeting}}</view>
-    <view class="hero-user">
-      <text class="hero-user-name">{{user.nickname}}</text>
-      <text class="hero-user-dot">·</text>
-      <text class="hero-user-school">{{user.school}}</text>
-    </view>
-
-    <view class="hero-search pressable" bindtap="onSearchTap">
-      <view class="search-magnifier">
-        <view class="magnifier-ring"></view>
-        <view class="magnifier-stick"></view>
-      </view>
-      <text class="search-placeholder">搜索校园资讯、资源、同学帖子</text>
-      <view class="search-cta">搜索</view>
-    </view>
-
-    <view class="hero-stats">
-      <view class="hero-stat">
-        <text class="hero-stat-num">2.4k</text>
-        <text class="hero-stat-label">今日动态</text>
-      </view>
-      <view class="hero-stat-line"></view>
-      <view class="hero-stat">
-        <text class="hero-stat-num">860+</text>
-        <text class="hero-stat-label">共享资料</text>
-      </view>
-      <view class="hero-stat-line"></view>
-      <view class="hero-stat">
-        <text class="hero-stat-num">98%</text>
-        <text class="hero-stat-label">满意度</text>
-      </view>
-    </view>
+    <text class="search-placeholder">搜索校园资讯、资源、同学帖子</text>
   </view>
 
   <view class="section">
     <view class="section-head">
       <view>
-        <text class="section-title">功能入口</text>
-        <text class="section-desc">一站式覆盖校园高频场景</text>
-      </view>
-      <view class="section-action" bindtap="gotoExplore">
-        <text>全部</text>
-        <view class="chevron"></view>
+        <text class="section-title">校园频道</text>
+        <text class="section-desc">找到你的同频圈子</text>
       </view>
     </view>
 
-    <scroll-view class="feature-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-      <view class="feature-row">
-        <view
-          wx:for="{{features}}"
-          wx:key="key"
-          class="feature-item"
-        >
-          <feature-card
-            icon="{{item.icon}}"
-            title="{{item.title}}"
-            desc="{{item.desc}}"
-            tone="{{item.tone}}"
-            badge="{{item.badge}}"
-            layout="tile"
-            bind:select="onFeatureSelect"
-          />
+    <view class="features">
+      <view wx:for="{{features}}" wx:key="key" class="feature-item">
+        <view class="feature-press pressable" data-key="{{item.key}}" bindtap="onFeatureSelect">
+          <view class="feature-icon-wrap">
+            <text class="feature-icon-text">{{item.icon}}</text>
+          </view>
+          <text class="feature-label">{{item.title}}</text>
         </view>
       </view>
-    </scroll-view>
+    </view>
   </view>
 
   <view class="section">
     <view class="section-head">
       <view>
-        <text class="section-title">热门动态</text>
+        <text class="section-title">正在发生</text>
         <text class="section-desc">此刻同学们正在讨论</text>
       </view>
       <view class="section-action" bindtap="onMoreTap">
@@ -94,50 +50,69 @@
       </view>
     </view>
 
-    <view class="feed">
+    <block wx:if="{{loading}}">
+      <view class="feed">
+        <view wx:for="{{[1, 2, 3]}}" wx:key="*this" class="feed-item">
+          <view class="feed-card">
+            <view class="skeleton-row">
+              <view class="skeleton skeleton-avatar"></view>
+              <view class="skeleton skeleton-lines">
+                <view class="skeleton skeleton-line skeleton-line--sm"></view>
+                <view class="skeleton skeleton-line"></view>
+              </view>
+            </view>
+            <view class="skeleton skeleton-block"></view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:elif="{{error}}" class="state">
+      <text class="state-title">内容加载失败</text>
+      <text class="state-desc">{{error}}</text>
+      <view class="state-btn pressable" bindtap="onRetry">
+        <text>重新加载</text>
+      </view>
+    </view>
+
+    <view wx:elif="{{!feed.length}}" class="state">
+      <text class="state-title">还没有校园动态</text>
+      <text class="state-desc">成为第一个在校园里分享的人</text>
+    </view>
+
+    <view wx:else class="feed">
       <view wx:for="{{feed}}" wx:key="id" class="feed-item">
-        <card
-          variant="plain"
-          radius="lg"
-          padding="none"
-          pressable="{{true}}"
-          data-id="{{item.id}}"
-          bind:tap="onFeedTap"
-        >
-        <view class="feed-head">
-          <view class="feed-avatar feed-avatar--{{item.avatarTone}}">{{item.avatar}}</view>
-          <view class="feed-meta">
-            <view class="feed-author-line">
-              <text class="feed-author">{{item.author}}</text>
-              <text class="pill feed-channel">{{item.channel}}</text>
+        <view class="feed-card pressable" data-id="{{item.id}}" data-detail="{{item.detailId}}" bindtap="onFeedTap">
+          <view class="feed-head">
+            <view class="feed-avatar feed-avatar--{{item.avatarTone}}">{{item.avatar}}</view>
+            <view class="feed-meta">
+              <view class="feed-author-line">
+                <text class="feed-author">{{item.author}}</text>
+                <text class="feed-channel-pill">{{item.channel}}</text>
+              </view>
+              <text class="feed-time">{{item.time}}</text>
             </view>
-            <text class="feed-time">{{item.time}}</text>
           </view>
-        </view>
 
-        <text class="feed-title">{{item.title}}</text>
-        <text class="feed-summary">{{item.summary}}</text>
+          <text class="feed-title">{{item.title}}</text>
+          <text class="feed-summary">{{item.summary}}</text>
 
-        <view class="feed-cover" style="background: linear-gradient(135deg, {{item.coverFrom}}, {{item.coverTo}});">
-          <text class="feed-cover-emoji">{{item.emoji}}</text>
-        </view>
-
-        <view class="feed-foot">
-          <view class="feed-tags">
-            <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="feed-tag">#{{tag}}</text>
-          </view>
-          <view class="feed-actions">
-            <view class="feed-action pressable" data-id="{{item.id}}" catchtap="onToggleLike">
-              <text class="feed-action-icon {{item.liked ? 'is-liked' : ''}}">{{item.liked ? '❤️' : '🤍'}}</text>
-              <text class="feed-action-num">{{item.likes}}</text>
+          <view class="feed-foot">
+            <view class="feed-tags">
+              <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="feed-tag">#{{tag}}</text>
             </view>
-            <view class="feed-action">
-              <text class="feed-action-icon">💬</text>
-              <text class="feed-action-num">{{item.comments}}</text>
+            <view class="feed-actions">
+              <view class="feed-action pressable" data-id="{{item.id}}" catchtap="onToggleLike">
+                <text class="feed-action-icon {{item.liked ? 'is-liked' : ''}}">{{item.liked ? '♡' : '♡'}}</text>
+                <text class="feed-action-num">{{item.likes}}</text>
+              </view>
+              <view class="feed-action">
+                <text class="feed-action-icon">◧</text>
+                <text class="feed-action-num">{{item.comments}}</text>
+              </view>
             </view>
           </view>
         </view>
-        </card>
       </view>
     </view>
   </view>
@@ -145,8 +120,8 @@
   <view class="section">
     <view class="section-head">
       <view>
-        <text class="section-title">推荐内容</text>
-        <text class="section-desc">根据你的专业与年级挑选</text>
+        <text class="section-title">精选内容</text>
+        <text class="section-desc">校园里的实用指南与好物</text>
       </view>
       <view class="section-action" bindtap="onMoreTap">
         <text>换一批</text>
@@ -154,23 +129,29 @@
       </view>
     </view>
 
+    <view class="group-tabs">
+      <view
+        wx:for="{{recommendGroups}}"
+        wx:key="*this"
+        class="group-tab pressable {{activeGroup === item ? 'group-tab--active' : ''}}"
+        data-group="{{item}}"
+        bindtap="onRecommendGroupTap"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+
     <view class="recommend">
       <view wx:for="{{recommends}}" wx:key="id" class="recommend-item">
-        <card
-          variant="plain"
-          radius="md"
-          padding="none"
-          pressable="{{true}}"
-          bind:tap="onRecommendTap"
-        >
-          <view class="recommend-icon recommend-icon--{{item.tone}}">{{item.emoji}}</view>
-          <text class="recommend-title">{{item.title}}</text>
-          <text class="recommend-desc">{{item.desc}}</text>
+        <view class="recommend-card pressable" data-detail="{{item.detailId}}" bindtap="onRecommendTap">
+          <view class="recommend-top">
+            <text class="recommend-title">{{item.title}}</text>
+            <text class="recommend-desc">{{item.desc}}</text>
+          </view>
           <view class="recommend-foot">
             <text class="recommend-meta">{{item.meta}}</text>
-            <text class="recommend-score">{{item.score}}</text>
           </view>
-        </card>
+        </view>
       </view>
     </view>
   </view>

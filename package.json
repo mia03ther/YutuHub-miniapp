@@ -1,15 +1,22 @@
 {
-  "name": "miniprogram-ts-quickstart",
-  "version": "1.0.0",
-  "description": "",
+  "name": "yutuhub-miniapp",
+  "version": "0.2.0",
+  "description": "屿途校园 YuTuHub 微信小程序端 — 面向高校学生的校园信息服务与资源共享平台",
+  "private": true,
+  "license": "MIT",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck"
   },
-  "keywords": [],
+  "keywords": [
+    "miniprogram",
+    "wechat",
+    "typescript",
+    "campus",
+    "yutuhub"
+  ],
   "author": "",
-  "license": "",
-  "dependencies": {
-  },
   "devDependencies": {
-    "miniprogram-api-typings": "^2.8.3-1"
+    "typescript": "^5.4.5"
   }
 }
