@@ -1,22 +1,31 @@
 {
   "name": "yutuhub-miniapp",
-  "version": "0.2.0",
-  "description": "屿途校园 YuTuHub 微信小程序端 — 面向高校学生的校园信息服务与资源共享平台",
+  "version": "0.3.0",
+  "description": "YutuHub 微信小程序端 — 面向高校学生的 AI 驱动校园知识与服务社区",
   "private": true,
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck"
+    "lint": "eslint miniprogram --max-warnings 0",
+    "lint:fix": "eslint miniprogram --fix",
+    "format": "prettier --write \"miniprogram/**/*.{ts,json}\"",
+    "format:check": "prettier --check \"miniprogram/**/*.{ts,json}\"",
+    "check": "npm run typecheck && npm run lint"
   },
   "keywords": [
     "miniprogram",
     "wechat",
     "typescript",
     "campus",
+    "ai",
     "yutuhub"
   ],
   "author": "",
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.20.0"
   }
 }

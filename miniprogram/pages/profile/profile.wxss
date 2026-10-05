@@ -105,6 +105,53 @@
   text-overflow: ellipsis;
 }
 
+.contribution {
+  margin-top: 28rpx;
+  padding: 24rpx;
+  border-radius: var(--radius-lg);
+  background: var(--brand-soft);
+}
+
+.contribution-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+}
+
+.contribution-label {
+  font-size: 24rpx;
+  color: var(--brand);
+}
+
+.contribution-value {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--brand);
+  line-height: 1.2;
+}
+
+.contribution-bar {
+  height: 8rpx;
+  margin-top: 14rpx;
+  border-radius: 4rpx;
+  background: rgba(91, 75, 255, 0.18);
+  overflow: hidden;
+}
+
+.contribution-bar-fill {
+  height: 100%;
+  border-radius: 4rpx;
+  background: var(--brand);
+}
+
+.contribution-next {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 21rpx;
+  color: var(--brand);
+  opacity: 0.85;
+}
+
 .profile-stats {
   display: flex;
   align-items: center;

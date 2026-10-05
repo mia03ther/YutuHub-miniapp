@@ -1,0 +1,23 @@
+<view class="page legal">
+  <view class="legal-head">
+    <text class="legal-title">隐私保护指引</text>
+    <text class="legal-updated">更新日期：2026-10-05</text>
+  </view>
+
+  <view class="legal-intro">
+    <text class="legal-intro-text">
+      YutuHub 是一个校园知识社区。我们只收集让平台能运转所必需的信息，并且全部由你主动提供。
+    </text>
+  </view>
+
+  <view wx:for="{{sections}}" wx:key="title" class="legal-block">
+    <text class="legal-block-title">{{item.title}}</text>
+    <text wx:for="{{item.paragraphs}}" wx:for-item="line" wx:key="*this" class="legal-line">
+      {{line}}
+    </text>
+  </view>
+
+  <view class="legal-foot">
+    <text class="legal-foot-text">如有疑问，联系 privacy@yutuhub.com</text>
+  </view>
+</view>

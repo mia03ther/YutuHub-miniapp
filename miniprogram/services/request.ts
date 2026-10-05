@@ -54,7 +54,7 @@ export function isMockMode(): boolean {
 
 /** Resolve after `delay` ms — used so mock reads still exercise loading UI. */
 export function mockDelay<T>(value: T, delay = 400): Promise<T> {
-  return new Promise<T>((resolve) => {
+  return new Promise<T>(resolve => {
     setTimeout(() => resolve(value), delay)
   })
 }
@@ -83,7 +83,7 @@ export function request<T>(options: RequestOptions): Promise<T> {
         'content-type': 'application/json',
         ...options.header
       },
-      success: (res) => {
+      success: res => {
         const body = res.data as ApiResponse<T>
         const ok = res.statusCode >= 200 && res.statusCode < 300
 
@@ -91,9 +91,11 @@ export function request<T>(options: RequestOptions): Promise<T> {
           resolve(body.data as T)
           return
         }
-        reject(new Error((body && body.error) || `请求失败 (${res.statusCode})`))
+        reject(
+          new Error((body && body.error) || `请求失败 (${res.statusCode})`)
+        )
       },
-      fail: (err) => {
+      fail: err => {
         reject(new Error(err.errMsg || '网络异常，请稍后重试'))
       }
     })

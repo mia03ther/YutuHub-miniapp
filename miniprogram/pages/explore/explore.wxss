@@ -324,6 +324,8 @@
 }
 
 .discussion-item {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 16rpx;
 }
 
@@ -408,5 +410,28 @@
 
 .discussion-meta {
   font-size: 20rpx;
+  color: var(--ink-300);
+}
+
+.discussion-ai {
+  padding: 2rpx 10rpx;
+  border-radius: 10rpx;
+  background: var(--brand-soft);
+  font-size: 18rpx;
+  color: var(--brand);
+}
+
+.discussion-report {
+  align-self: flex-end;
+  margin-top: -8rpx;
+  padding: 6rpx 4rpx 0;
+  font-size: 20rpx;
+  color: var(--ink-300);
+}
+
+.state-inline {
+  padding: 32rpx 0;
+  text-align: center;
+  font-size: 22rpx;
   color: var(--ink-300);
 }

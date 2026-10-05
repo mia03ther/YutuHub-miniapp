@@ -3,3 +3,7 @@ node_modules/
 miniprogram_npm/
 *.log
 project.private.config.json
+
+# Local environment overrides
+.env
+.env.local

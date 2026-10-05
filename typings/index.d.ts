@@ -9,4 +9,8 @@ interface IAppOption {
     pendingChannel?: string
   },
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
+  /** Fetch a fresh wx.login code and cache it asynchronously. */
+  login(): void,
+  /** Pre-open the privacy consent gate before any private-API call. */
+  warmPrivacyAuthorization(): void,
 }

@@ -1,5 +1,5 @@
 <view class="page profile">
-  <navbar title="我的" subtitle="屿途大学" logoText="屿" bordered="{{false}}" />
+  <navbar title="我的" subtitle="YutuHub" logoText="屿" bordered="{{false}}" />
 
   <card variant="plain" radius="xl" padding="none">
     <view class="profile-head">
@@ -20,6 +20,17 @@
         </view>
       </view>
 
+      <view class="contribution">
+        <view class="contribution-left">
+          <text class="contribution-label">贡献值</text>
+          <text class="contribution-value">{{user.points}}</text>
+        </view>
+        <view class="contribution-bar">
+          <view class="contribution-bar-fill" style="width: {{progress}}%;"></view>
+        </view>
+        <text class="contribution-next">距 {{nextLevelName}} 还差 {{toNext}} 贡献值</text>
+      </view>
+
       <view class="profile-stats">
         <view class="stat pressable" data-label="关注者" bindtap="onStatTap">
           <text class="stat-num">{{user.followers}}</text>
@@ -28,10 +39,6 @@
         <view class="stat pressable" data-label="关注" bindtap="onStatTap">
           <text class="stat-num">{{user.following}}</text>
           <text class="stat-label">关注</text>
-        </view>
-        <view class="stat pressable" data-label="屿途积分" bindtap="onStatTap">
-          <text class="stat-num">{{user.points}}</text>
-          <text class="stat-label">屿途积分</text>
         </view>
         <view class="stat pressable" data-label="信用分" bindtap="onStatTap">
           <text class="stat-num">{{user.credits}}</text>
@@ -43,7 +50,7 @@
 
   <view wx:if="{{!authorized}}" class="bind">
     <text class="bind-title">绑定微信头像昵称</text>
-    <text class="bind-desc">授权后同步校园身份，发布内容可获得屿途积分</text>
+    <text class="bind-desc">授权后同步校园身份，发布内容可获得贡献值</text>
 
     <view class="bind-form">
       <button class="bind-avatar pressable" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
@@ -72,7 +79,7 @@
     </view>
     <view class="publish-body">
       <text class="publish-title">发布校园动态</text>
-      <text class="publish-desc">分享闲置、资料、吐槽或求助，让价值流动起来</text>
+      <text class="publish-desc">分享经验、资料或求助，沉淀后同样帮到后来的人</text>
     </view>
     <view class="publish-cta">去发布</view>
   </view>
@@ -83,7 +90,14 @@
     </view>
 
     <view class="menus">
-      <view wx:for="{{menus}}" wx:key="key" class="menu-item pressable" data-label="{{item.label}}" bindtap="onMenuTap">
+      <view
+        wx:for="{{menus}}"
+        wx:key="key"
+        class="menu-item pressable"
+        data-key="{{item.key}}"
+        data-label="{{item.label}}"
+        bindtap="onMenuTap"
+      >
         <view class="menu-icon menu-icon--{{item.tone}}">{{item.icon}}</view>
         <text class="menu-label">{{item.label}}</text>
         <text class="menu-value">{{item.value}}</text>
@@ -102,6 +116,8 @@
         wx:for="{{settings}}"
         wx:key="key"
         class="menu-item pressable"
+        data-key="{{item.key}}"
+        data-route="{{item.route}}"
         data-label="{{item.label}}"
         bindtap="onMenuTap"
       >
@@ -113,9 +129,9 @@
     </view>
   </view>
 
-  <view class="logout pressable" bindtap="onMenuTap" data-label="退出登录">
+  <view class="logout pressable" bindtap="onLogout">
     <text>退出登录</text>
   </view>
 
-  <text class="version">屿途校园 · v0.2.0</text>
+  <text class="version">YutuHub · v0.3.0</text>
 </view>

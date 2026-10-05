@@ -130,36 +130,26 @@
   flex-wrap: wrap;
 }
 
-.image-item {
+.image-thumb {
   position: relative;
   width: 180rpx;
   height: 150rpx;
   margin: 0 14rpx 14rpx 0;
   border-radius: 20rpx;
   background: var(--surface-sunken);
-  border: 1rpx solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.image-icon {
-  font-size: 44rpx;
-  color: var(--ink-300);
-  line-height: 1;
 }
 
 .image-remove {
   position: absolute;
   top: -10rpx;
   right: -10rpx;
-  width: 36rpx;
-  height: 36rpx;
+  width: 40rpx;
+  height: 40rpx;
   border-radius: 50%;
   background: var(--ink-900);
   color: #FFFFFF;
-  font-size: 22rpx;
-  line-height: 36rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
   text-align: center;
 }
 

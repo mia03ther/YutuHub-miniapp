@@ -13,7 +13,7 @@
     <view class="section-head">
       <view>
         <text class="section-title">精选频道</text>
-        <text class="section-desc">四大场景，随时开聊</text>
+        <text class="section-desc">按场景切分，随时切换</text>
       </view>
     </view>
 
@@ -26,7 +26,13 @@
           <text class="channel-title">{{item.title}}</text>
           <text class="channel-desc">{{item.desc}}</text>
           <view class="channel-tags">
-            <text wx:for="{{item.topics}}" wx:for-item="tag" wx:key="*this" class="channel-tag">{{tag}}</text>
+            <text
+              wx:for="{{item.topics}}"
+              wx:for-item="tag"
+              wx:for-index="tagIndex"
+              wx:key="index"
+              class="channel-tag"
+            >{{tag}}</text>
           </view>
         </view>
       </view>
@@ -52,7 +58,8 @@
       <view class="topic-row">
         <view
           wx:for="{{topics}}"
-          wx:key="*this"
+          wx:for-index="topicIndex"
+          wx:key="index"
           id="topic-{{item}}"
           class="topic {{activeTopic === item ? 'topic--active' : ''}} pressable"
           data-topic="{{item}}"
@@ -140,12 +147,23 @@
               <text class="discussion-title">{{item.title}}</text>
               <view class="discussion-foot">
                 <text class="discussion-channel">{{item.channel}}</text>
+                <text wx:if="{{item.aiAssisted}}" class="discussion-ai">AI 辅助</text>
                 <text class="discussion-meta">◧ {{item.comments}} · ♡ {{item.likes}}</text>
               </view>
             </view>
           </view>
         </view>
+        <view class="discussion-report pressable" data-id="{{item.id}}" bindtap="onReportTap">
+          <text>举报</text>
+        </view>
       </view>
+    </view>
+
+    <view wx:if="{{!loading && !error && feed.length && loadingMore}}" class="state-inline">
+      <text>加载中…</text>
+    </view>
+    <view wx:elif="{{!hasMore && feed.length}}" class="state-inline">
+      <text>已经到底啦</text>
     </view>
   </view>
 </view>

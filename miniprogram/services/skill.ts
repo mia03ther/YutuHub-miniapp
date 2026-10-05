@@ -1,22 +1,22 @@
 /**
- * Second-hand marketplace domain.
+ * Skill-exchange domain.
  *
- * Kept separate from feed.ts because the real backend will model listings,
- * prices and campus-only pickup rules as their own resource.
+ * Kept separate from feed.ts because the real backend will model exchange
+ * offers (what you can teach, what you want in return) as their own resource.
  */
 
 import { DETAIL_MOCK_DATA } from '../data'
 import type { DetailItem } from '../data'
 import { isMockMode, mockDelay, request } from './request'
 
-export interface MarketQuery {
+export interface SkillQuery {
   keyword?: string
-  maxPrice?: number
+  category?: string
   page?: number
   limit?: number
 }
 
-export interface MarketResult {
+export interface SkillResult {
   items: DetailItem[]
   total: number
   page: number
@@ -24,36 +24,39 @@ export interface MarketResult {
   hasMore: boolean
 }
 
-export interface MarketPublishInput {
+export interface SkillOfferInput {
   title: string
-  content: string
-  price: string
+  /** What the author is able to teach. */
+  canTeach: string
+  /** What the author wants in return. */
+  wantsInReturn: string
   images: string[]
 }
 
-const MARKET_CATEGORY = 'market'
+const SKILL_CATEGORY = 'market'
 
 /** GET /api/posts?category=market */
-export function fetchMarketList(
-  query: MarketQuery = {}
-): Promise<MarketResult> {
+export function fetchSkillList(query: SkillQuery = {}): Promise<SkillResult> {
   const page = query.page || 1
   const limit = query.limit || 20
 
   if (isMockMode()) {
     let all = DETAIL_MOCK_DATA.filter(
-      (item) => item.typeKey === MARKET_CATEGORY
-    ).map((item) => ({ ...item }))
+      item => item.typeKey === SKILL_CATEGORY
+    ).map(item => ({ ...item }))
 
     if (query.keyword) {
       const kw = query.keyword.toLowerCase()
-      all = all.filter((item) => item.title.toLowerCase().includes(kw))
+      all = all.filter(item => item.title.toLowerCase().includes(kw))
+    }
+    if (query.category) {
+      all = all.filter(item => item.type === query.category)
     }
 
     const start = (page - 1) * limit
     const items = all.slice(start, start + limit)
 
-    return mockDelay<MarketResult>({
+    return mockDelay<SkillResult>({
       items,
       total: all.length,
       page,
@@ -62,10 +65,10 @@ export function fetchMarketList(
     })
   }
 
-  return request<MarketResult>({
+  return request<SkillResult>({
     url: '/posts',
     data: {
-      category: MARKET_CATEGORY,
+      category: query.category || SKILL_CATEGORY,
       search: query.keyword,
       page,
       limit
@@ -73,20 +76,20 @@ export function fetchMarketList(
   })
 }
 
-/** GET /api/posts/:id restricted to marketplace listings. */
-export function fetchMarketDetail(id: string): Promise<DetailItem> {
+/** GET /api/posts/:id restricted to skill-exchange offers. */
+export function fetchSkillDetail(id: string): Promise<DetailItem> {
   if (isMockMode()) {
     const found = DETAIL_MOCK_DATA.find(
-      (item) => item.id === id && item.typeKey === MARKET_CATEGORY
+      item => item.id === id && item.typeKey === SKILL_CATEGORY
     )
     return mockDelay<DetailItem>(found || DETAIL_MOCK_DATA[0])
   }
   return request<DetailItem>({ url: `/posts/${id}` })
 }
 
-/** POST /api/posts — creates a marketplace listing. */
-export function createMarketItem(
-  input: MarketPublishInput
+/** POST /api/posts — creates a skill-exchange offer. */
+export function createSkillOffer(
+  input: SkillOfferInput
 ): Promise<{ id: number }> {
   if (isMockMode()) {
     return mockDelay({ id: Date.now() % 100000 })
@@ -95,10 +98,9 @@ export function createMarketItem(
     url: '/posts',
     method: 'POST',
     data: {
-      category_id: 6,
+      category_id: SKILL_CATEGORY,
       title: input.title,
-      content: input.content,
-      price: input.price,
+      content: `${input.canTeach}\n\n想换：${input.wantsInReturn}`,
       images: input.images
     }
   })

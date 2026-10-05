@@ -1,6 +1,9 @@
 {
   "navigationBarTitleText": "发现",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 80,
   "usingComponents": {
-    "navbar": "../../components/navbar/index"
+    "navbar": "../../components/navbar/index",
+    "card": "../../components/card/index"
   }
 }

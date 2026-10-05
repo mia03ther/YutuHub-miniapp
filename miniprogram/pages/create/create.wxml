@@ -71,22 +71,24 @@
     <view class="section-head">
       <view>
         <text class="section-title">图片</text>
-        <text class="section-desc">最多 {{maxImages}} 张，当前为演示占位</text>
+        <text class="section-desc">最多 {{maxImages}} 张，发布前会自动过内容安全检测</text>
       </view>
     </view>
 
     <view class="images">
-      <view
+      <image
         wx:for="{{images}}"
         wx:key="*this"
-        wx:for-index="imgIndex"
-        class="image-item pressable"
-        data-index="{{imgIndex}}"
-        bindtap="onRemoveImage"
+        class="image-thumb pressable"
+        src="{{item}}"
+        mode="aspectFill"
+        data-path="{{item}}"
+        bindtap="onPreviewImage"
       >
-        <text class="image-icon">+</text>
-        <view class="image-remove"><text>×</text></view>
-      </view>
+        <view class="image-remove pressable" data-path="{{item}}" catchtap="onRemoveImage">
+          <text>×</text>
+        </view>
+      </image>
 
       <view wx:if="{{images.length < maxImages}}" class="image-add pressable" bindtap="onAddImage">
         <text class="image-add-plus">+</text>
@@ -108,9 +110,9 @@
     </card>
   </view>
 
-  <view class="submit pressable {{submitting ? 'submit--busy' : ''}}" bindtap="onSubmit">
-    <text>{{submitting ? '发布中…' : '发布'}}</text>
+  <view class="submit pressable {{submitting || checking ? 'submit--busy' : ''}}" bindtap="onSubmit">
+    <text>{{checking ? '审核中…' : submitting ? '发布中…' : '发布'}}</text>
   </view>
 
-  <text class="submit-tip">演示版本 · 内容仅保存在本地，不会提交到服务器</text>
+  <text class="submit-tip">内容发布前会经过安全检测，并标注 AI 辅助情况。积分不可提现或转让。</text>
 </view>

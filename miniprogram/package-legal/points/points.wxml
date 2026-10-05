@@ -1,0 +1,23 @@
+<view class="page legal">
+  <view class="legal-head">
+    <text class="legal-title">贡献值规则</text>
+    <text class="legal-updated">更新日期：2026-10-05</text>
+  </view>
+
+  <view class="legal-intro">
+    <text class="legal-intro-text">
+      贡献值记录你为社区沉淀了多少有效知识。它没有货币价值，不可提现、不可转让、不可购买。
+    </text>
+  </view>
+
+  <view wx:for="{{sections}}" wx:key="title" class="legal-block">
+    <text class="legal-block-title">{{item.title}}</text>
+    <text wx:for="{{item.paragraphs}}" wx:for-item="line" wx:key="*this" class="legal-line">
+      {{line}}
+    </text>
+  </view>
+
+  <view class="legal-foot">
+    <text class="legal-foot-text">刷量一律清零并降级</text>
+  </view>
+</view>

@@ -31,15 +31,15 @@ export interface FeedResult {
 }
 
 function filterMockFeed(query: FeedQuery): FeedItem[] {
-  let items = FEED_ITEMS.map((item) => ({ ...item }))
+  let items = FEED_ITEMS.map(item => ({ ...item }))
 
   if (query.channel) {
-    items = items.filter((item) => item.channel === query.channel)
+    items = items.filter(item => item.channel === query.channel)
   }
   if (query.keyword) {
     const kw = query.keyword.toLowerCase()
     items = items.filter(
-      (item) =>
+      item =>
         item.title.toLowerCase().includes(kw) ||
         item.summary.toLowerCase().includes(kw)
     )
@@ -98,13 +98,16 @@ export function fetchDetail(id: string): Promise<DetailItem> {
 export function fetchComments(id: string): Promise<Comment[]> {
   if (isMockMode()) {
     const list = DETAIL_COMMENTS[id] || []
-    return mockDelay<Comment[]>(list.map((item) => ({ ...item })))
+    return mockDelay<Comment[]>(list.map(item => ({ ...item })))
   }
   return request<Comment[]>({ url: `/posts/${id}/comments` })
 }
 
 /** POST /api/posts/:id/like */
-export function setLiked(id: string, liked: boolean): Promise<{ likes: number }> {
+export function setLiked(
+  id: string,
+  liked: boolean
+): Promise<{ likes: number }> {
   if (isMockMode()) {
     const found = findDetailById(id)
     const base = found ? found.likes : 0
@@ -138,9 +141,9 @@ export function setFavorited(
 export function fetchRecommends(group?: string): Promise<RecommendItem[]> {
   if (isMockMode()) {
     const items = group
-      ? RECOMMEND_ITEMS.filter((item) => item.group === group)
+      ? RECOMMEND_ITEMS.filter(item => item.group === group)
       : RECOMMEND_ITEMS
-    return mockDelay<RecommendItem[]>(items.map((item) => ({ ...item })))
+    return mockDelay<RecommendItem[]>(items.map(item => ({ ...item })))
   }
   return request<RecommendItem[]>({
     url: '/recommends',

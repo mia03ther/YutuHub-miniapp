@@ -3,21 +3,27 @@ import {
   FEATURE_ENTRIES,
   MOCK_USER,
   RECOMMEND_GROUPS,
-  RecommendGroup,
+  resolveLevelProgress,
   greetingByHour
 } from '../../data'
-import type { FeedItem, RecommendItem } from '../../data'
+import type { FeedItem, RecommendItem, RecommendGroup } from '../../data'
 import { fetchFeed, fetchRecommends } from '../../services/feed'
+
+const PAGE_SIZE = 10
 
 Page({
   data: {
     brand: BRAND,
     greeting: '',
     user: MOCK_USER,
+    levelProgress: resolveLevelProgress(MOCK_USER.points).progress,
     features: FEATURE_ENTRIES,
     feed: [] as FeedItem[],
     loading: true,
+    loadingMore: false,
     error: '',
+    page: 1,
+    hasMore: false,
     recommendGroups: RECOMMEND_GROUPS,
     activeGroup: RECOMMEND_GROUPS[0],
     recommends: [] as RecommendItem[]
@@ -27,34 +33,46 @@ Page({
     this.setData({
       greeting: greetingByHour(new Date().getHours())
     })
-    this.loadFeed()
+    this.loadFeed(true)
     this.loadRecommends()
   },
 
   onShow() {
-    const tabBar = this.getTabBar() as unknown as {
-      setData: (data: Record<string, unknown>) => void
-    } | undefined
+    const tabBar = this.getTabBar() as unknown as
+      | {
+          setData: (data: Record<string, unknown>) => void
+        }
+      | undefined
     if (tabBar) {
       tabBar.setData({ selected: 0 })
     }
   },
 
-  loadFeed() {
-    this.setData({ loading: true, error: '' })
+  loadFeed(reset: boolean) {
+    const page = reset ? 1 : this.data.page + 1
 
-    fetchFeed({ limit: 20 })
-      .then((result) => {
-        this.setData({ feed: result.items, loading: false })
+    this.setData(
+      reset ? { loading: true, error: '', page: 1 } : { loadingMore: true }
+    )
+
+    fetchFeed({ page, limit: PAGE_SIZE })
+      .then(result => {
+        this.setData({
+          feed: reset ? result.items : this.data.feed.concat(result.items),
+          page,
+          hasMore: result.hasMore,
+          loading: false,
+          loadingMore: false
+        })
       })
       .catch((err: Error) => {
-        this.setData({ loading: false, error: err.message })
+        this.setData({ loading: false, loadingMore: false, error: err.message })
       })
   },
 
   loadRecommends(group?: string) {
     fetchRecommends(group)
-      .then((recommends) => {
+      .then(recommends => {
         this.setData({ recommends })
       })
       .catch((err: Error) => {
@@ -63,14 +81,22 @@ Page({
   },
 
   onRetry() {
-    this.loadFeed()
+    this.loadFeed(true)
   },
 
   onPullDownRefresh() {
-    this.loadFeed()
+    this.loadFeed(true)
     setTimeout(() => {
       wx.stopPullDownRefresh()
     }, 600)
+  },
+
+  /** Infinite scroll: bindscrolltolower on the page view. */
+  onReachBottom() {
+    if (this.data.loadingMore || !this.data.hasMore || this.data.loading) {
+      return
+    }
+    this.loadFeed(false)
   },
 
   gotoExplore() {
@@ -82,15 +108,17 @@ Page({
   },
 
   onSearchTap() {
-    wx.showToast({
-      title: '搜索功能开发中',
-      icon: 'none'
-    })
+    wx.switchTab({ url: '/pages/explore/explore' })
+  },
+
+  gotoAgreement() {
+    wx.navigateTo({ url: '/package-legal/agreement/agreement' })
   },
 
   onFeatureSelect(e: WechatMiniprogram.CustomEvent) {
     const key = String(e.currentTarget.dataset.key || '')
-    if (!key) {
+    if (!key || key === 'more') {
+      wx.switchTab({ url: '/pages/explore/explore' })
       return
     }
     getApp<IAppOption>().globalData.pendingChannel = key
@@ -102,25 +130,24 @@ Page({
     wx.navigateTo({ url: `/pages/detail/detail?id=${detailId}` })
   },
 
+  /** Patches a single row instead of replacing the whole array. */
   onToggleLike(e: WechatMiniprogram.TouchEvent) {
     const id = String(e.currentTarget.dataset.id)
-    const feed = this.data.feed.map((item) => {
-      if (item.id !== id) {
-        return { ...item }
-      }
-      return {
-        ...item,
-        liked: !item.liked,
-        likes: item.liked ? item.likes - 1 : item.likes + 1
-      }
+    const index = this.data.feed.findIndex(item => item.id === id)
+    if (index < 0) {
+      return
+    }
+    const target = this.data.feed[index]
+    const liked = !target.liked
+
+    this.setData({
+      [`feed[${index}].liked`]: liked,
+      [`feed[${index}].likes`]: liked ? target.likes + 1 : target.likes - 1
     })
-    this.setData({ feed })
   },
 
   onRecommendGroupTap(e: WechatMiniprogram.TouchEvent) {
-    const group = String(
-      e.currentTarget.dataset.group
-    ) as RecommendGroup
+    const group = String(e.currentTarget.dataset.group) as RecommendGroup
     this.setData({ activeGroup: group })
     this.loadRecommends(group)
   },
@@ -130,10 +157,10 @@ Page({
     wx.navigateTo({ url: `/pages/detail/detail?id=${detailId}` })
   },
 
-  onMoreTap() {
-    wx.showToast({
-      title: '更多内容开发中',
-      icon: 'none'
-    })
+  onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
+    return {
+      title: 'YutuHub · 连接校园知识，让 AI 加速成长',
+      path: '/pages/index/index'
+    }
   }
 })

@@ -6,11 +6,35 @@
     showBack="{{true}}"
     bordered="{{false}}"
   >
-    <view slot="extra" class="nav-share pressable" bindtap="onImageTap">
+    <view slot="extra" class="nav-report pressable" bindtap="onReportTap">
       <text>···</text>
     </view>
   </navbar>
 
+  <block wx:if="{{loading}}">
+    <view class="section">
+      <card variant="plain" radius="xl" padding="lg">
+        <view class="skeleton skeleton-line" style="width: 60%; height: 36rpx;"></view>
+        <view class="skeleton skeleton-line" style="width: 40%; margin-top: 20rpx;"></view>
+        <view class="skeleton skeleton-block" style="height: 200rpx; margin-top: 28rpx;"></view>
+      </card>
+    </view>
+    <view class="section">
+      <card variant="plain" radius="lg" padding="md">
+        <view class="skeleton skeleton-line" style="width: 100%; height: 80rpx;"></view>
+      </card>
+    </view>
+  </block>
+
+  <view wx:elif="{{error}}" class="state">
+    <text class="state-title">内容加载失败</text>
+    <text class="state-desc">{{error}}</text>
+    <view class="state-btn pressable" bindtap="onRetry">
+      <text>重新加载</text>
+    </view>
+  </view>
+
+  <block wx:else>
   <view class="type-banner">
     <text class="type-banner-label">{{detail.type}}</text>
     <text class="type-banner-cta" bindtap="onTypeTap">进入频道 ›</text>
@@ -29,11 +53,24 @@
       </view>
 
       <view class="content">
-        <text wx:for="{{paragraphs}}" wx:key="*this" class="content-para">{{item}}</text>
+        <text
+          wx:for="{{paragraphs}}"
+          wx:key="index"
+          wx:for-index="paraIndex"
+          class="content-para"
+        >{{item}}</text>
+      </view>
+
+      <view wx:if="{{aiAssisted}}" class="ai-badge">
+        <text>本文包含 AI 辅助整理内容，已人工核对</text>
       </view>
 
       <view class="gallery">
-        <view wx:for="{{images}}" wx:key="*this" wx:for-index="imgIndex" class="gallery-item pressable"
+        <view
+          wx:for="{{images}}"
+          wx:key="*this"
+          wx:for-index="imgIndex"
+          class="gallery-item pressable"
           bindtap="onImageTap"
         >
           <text class="gallery-icon">+</text>
@@ -42,7 +79,13 @@
       </view>
 
       <view class="tags">
-        <text wx:for="{{detail.tags}}" wx:for-item="tag" wx:key="*this" class="tag">#{{tag}}</text>
+        <text
+          wx:for="{{detail.tags}}"
+          wx:for-item="tag"
+          wx:for-index="tagIndex"
+          wx:key="index"
+          class="tag"
+        >#{{tag}}</text>
       </view>
     </card>
   </view>
@@ -73,7 +116,28 @@
       </view>
     </card>
 
-    <view class="comments">
+    <view wx:if="{{commentsLoading}}" class="comments">
+      <view wx:for="{{[1, 2]}}" wx:key="*this" class="comment-item">
+        <card variant="plain" radius="md" padding="md">
+          <view class="skeleton skeleton-line" style="width: 35%;"></view>
+          <view class="skeleton skeleton-line" style="width: 90%; margin-top: 16rpx;"></view>
+        </card>
+      </view>
+    </view>
+
+    <view wx:elif="{{commentsError}}" class="state">
+      <text class="state-desc">{{commentsError}}</text>
+      <view class="state-btn pressable" bindtap="onRetryComments">
+        <text>重新加载评论</text>
+      </view>
+    </view>
+
+    <view wx:elif="{{!comments.length}}" class="state">
+      <text class="state-title">还没有评论</text>
+      <text class="state-desc">第一条往往最有价值</text>
+    </view>
+
+    <view wx:else class="comments">
       <view wx:for="{{comments}}" wx:key="id" class="comment-item">
         <card variant="plain" radius="md" padding="md">
           <view class="comment">
@@ -86,6 +150,9 @@
               <text class="comment-text">{{item.content}}</text>
               <view class="comment-foot">
                 <text class="comment-like">♡ {{item.likes}}</text>
+                <text class="comment-report pressable" data-id="{{item.id}}" bindtap="onReportComment">
+                  举报
+                </text>
               </view>
             </view>
           </view>
@@ -95,6 +162,9 @@
   </view>
 
   <view class="footer">
+    <view class="footer-report pressable" bindtap="onReportTap">
+      <text>内容有问题？举报这条内容</text>
+    </view>
     <text class="footer-text">— 已经到底啦 —</text>
   </view>
 
@@ -111,5 +181,10 @@
       <text class="action-icon">◧</text>
       <text class="action-num">{{commentCount}}</text>
     </view>
+    <view class="action-item pressable" bindtap="onReportTap">
+      <text class="action-icon">···</text>
+      <text class="action-label">举报</text>
+    </view>
   </view>
+  </block>
 </view>

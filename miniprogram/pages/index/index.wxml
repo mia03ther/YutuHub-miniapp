@@ -1,13 +1,26 @@
 <view class="page index">
-  <navbar title="屿途校园" subtitle="发现校园里的每一份价值" logoText="屿" bordered="{{false}}">
+  <navbar title="YutuHub" subtitle="连接校园知识，让 AI 加速成长" logoText="屿" bordered="{{false}}">
     <view slot="extra" class="nav-action pressable" bindtap="gotoProfile">
-      <view class="nav-avatar">{{user.nickname[0]}}</view>
+      <image wx:if="{{user.avatar}}" class="nav-avatar-img" src="{{user.avatar}}" mode="aspectFill" />
+      <view wx:else class="nav-avatar">{{user.nickname[0]}}</view>
     </view>
   </navbar>
 
   <view class="header">
-    <view class="header-title">{{brand.name}}</view>
+    <view class="header-eyebrow">{{brand.name}}</view>
+    <view class="header-title">{{greeting}}</view>
     <view class="header-desc">{{brand.slogan}}</view>
+  </view>
+
+  <view class="level-card" bindtap="gotoProfile">
+    <view class="level-left">
+      <text class="level-name">{{user.nickname}}</text>
+      <text class="level-tag">{{user.level}}</text>
+    </view>
+    <view class="level-right">
+      <text class="level-points">{{user.points}}</text>
+      <text class="level-points-label">贡献值</text>
+    </view>
   </view>
 
   <view class="search pressable" bindtap="onSearchTap">
@@ -15,14 +28,14 @@
       <view class="search-ring"></view>
       <view class="search-stick"></view>
     </view>
-    <text class="search-placeholder">搜索校园资讯、资源、同学帖子</text>
+    <text class="search-placeholder">搜索 AI 工具、技能交换或 Wiki 词条</text>
   </view>
 
   <view class="section">
     <view class="section-head">
       <view>
-        <text class="section-title">校园频道</text>
-        <text class="section-desc">找到你的同频圈子</text>
+        <text class="section-title">功能入口</text>
+        <text class="section-desc">五个方向，覆盖你的日常</text>
       </view>
     </view>
 
@@ -42,9 +55,9 @@
     <view class="section-head">
       <view>
         <text class="section-title">正在发生</text>
-        <text class="section-desc">此刻同学们正在讨论</text>
+        <text class="section-desc">此刻同学们正在沉淀什么</text>
       </view>
-      <view class="section-action" bindtap="onMoreTap">
+      <view class="section-action" bindtap="gotoExplore">
         <text>查看全部</text>
         <view class="chevron"></view>
       </view>
@@ -76,8 +89,8 @@
     </view>
 
     <view wx:elif="{{!feed.length}}" class="state">
-      <text class="state-title">还没有校园动态</text>
-      <text class="state-desc">成为第一个在校园里分享的人</text>
+      <text class="state-title">还没有内容</text>
+      <text class="state-desc">成为第一个在校园里沉淀经验的人</text>
     </view>
 
     <view wx:else class="feed">
@@ -97,13 +110,21 @@
           <text class="feed-title">{{item.title}}</text>
           <text class="feed-summary">{{item.summary}}</text>
 
+          <text wx:if="{{item.aiAssisted}}" class="feed-ai">AI 辅助整理</text>
+
           <view class="feed-foot">
             <view class="feed-tags">
-              <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="feed-tag">#{{tag}}</text>
+              <text
+                wx:for="{{item.tags}}"
+                wx:for-item="tag"
+                wx:for-index="tagIndex"
+                wx:key="index"
+                class="feed-tag"
+              >#{{tag}}</text>
             </view>
             <view class="feed-actions">
               <view class="feed-action pressable" data-id="{{item.id}}" catchtap="onToggleLike">
-                <text class="feed-action-icon {{item.liked ? 'is-liked' : ''}}">{{item.liked ? '♡' : '♡'}}</text>
+                <text class="feed-action-icon {{item.liked ? 'is-liked' : ''}}">♡</text>
                 <text class="feed-action-num">{{item.likes}}</text>
               </view>
               <view class="feed-action">
@@ -115,17 +136,20 @@
         </view>
       </view>
     </view>
+
+    <view wx:if="{{!loading && !error && feed.length && loadingMore}}" class="state-inline">
+      <text>加载中…</text>
+    </view>
+    <view wx:elif="{{!hasMore && feed.length}}" class="state-inline">
+      <text>已经到底啦</text>
+    </view>
   </view>
 
   <view class="section">
     <view class="section-head">
       <view>
-        <text class="section-title">精选内容</text>
-        <text class="section-desc">校园里的实用指南与好物</text>
-      </view>
-      <view class="section-action" bindtap="onMoreTap">
-        <text>换一批</text>
-        <view class="chevron"></view>
+        <text class="section-title">精选词条</text>
+        <text class="section-desc">被反复查阅的实用内容</text>
       </view>
     </view>
 
@@ -157,7 +181,9 @@
   </view>
 
   <view class="footer">
-    <view class="footer-line"></view>
-    <text class="footer-text">已经到底啦 · 屿途与你一起成长</text>
+    <view class="footer-report pressable" bindtap="gotoAgreement">
+      <text>社区公约 · 隐私指引</text>
+    </view>
+    <text class="footer-text">AI 生成内容一律标注 · 贡献值不可提现</text>
   </view>
 </view>

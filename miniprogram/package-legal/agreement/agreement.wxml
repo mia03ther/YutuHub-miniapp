@@ -1,0 +1,25 @@
+<view class="page legal">
+  <view class="legal-head">
+    <text class="legal-title">社区公约</text>
+    <text class="legal-updated">更新日期：2026-10-05</text>
+  </view>
+
+  <view class="legal-intro">
+    <text class="legal-intro-text">
+      YutuHub 的价值来自可信的知识沉淀。下面的约定是为了让愿意认真分享的人不被噪音淹没。
+    </text>
+  </view>
+
+  <view wx:for="{{sections}}" wx:key="title" class="legal-block">
+    <text class="legal-block-title">{{item.title}}</text>
+    <text wx:for="{{item.paragraphs}}" wx:for-item="line" wx:key="*this" class="legal-line">
+      {{line}}
+    </text>
+  </view>
+
+  <view class="legal-foot">
+    <view class="legal-cta pressable" bindtap="onGoPoints">
+      <text>查看贡献值规则</text>
+    </view>
+  </view>
+</view>

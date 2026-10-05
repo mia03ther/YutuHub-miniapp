@@ -6,6 +6,7 @@ import { MOCK_USER } from '../data'
 import type { FeedItem } from '../data'
 import { isMockMode, mockDelay, request } from './request'
 import type { CurrentUser } from './auth'
+import { readStorage, writeStorage } from '../utils/storage'
 
 const PROFILE_KEY = 'yutuhub_profile'
 
@@ -24,13 +25,14 @@ export interface PublishInput {
 }
 
 /** Reads the cached profile first so the page paints instantly. */
-export function getCachedProfile(): CurrentUser | null {
-  const stored = wx.getStorageSync(PROFILE_KEY)
-  return stored && stored.nickname ? (stored as CurrentUser) : null
+export function getCachedProfile(): Promise<CurrentUser | null> {
+  return readStorage<CurrentUser>(PROFILE_KEY).then(stored =>
+    stored && stored.nickname ? stored : null
+  )
 }
 
-export function saveCachedProfile(user: CurrentUser): void {
-  wx.setStorageSync(PROFILE_KEY, user)
+export function saveCachedProfile(user: CurrentUser): Promise<void> {
+  return writeStorage(PROFILE_KEY, user)
 }
 
 /** GET /api/users/me */

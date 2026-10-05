@@ -1,0 +1,40 @@
+<view class="page report">
+  <view class="report-head">
+    <text class="report-title">举报这条内容</text>
+    <text class="report-sub">举报后由社区审核员核实，恶意举报会扣减贡献值</text>
+  </view>
+
+  <view class="report-section">
+    <text class="report-label">举报原因</text>
+    <view class="report-options">
+      <view
+        wx:for="{{categories}}"
+        wx:key="value"
+        class="report-option pressable {{selected === item.value ? 'report-option--on' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="onSelect"
+      >
+        <text>{{item.label}}</text>
+        <text wx:if="{{selected === item.value}}" class="report-check">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="report-section">
+    <text class="report-label">补充说明（选填）</text>
+    <textarea
+      class="report-input"
+      value="{{note}}"
+      maxlength="200"
+      placeholder="可以说明具体问题，最多 200 字"
+      placeholder-class="report-ph"
+      auto-height
+      bindinput="onNoteInput"
+    />
+    <text class="report-count">{{note.length}} / 200</text>
+  </view>
+
+  <view class="report-submit pressable {{submitting ? 'report-submit--busy' : ''}}" bindtap="onSubmit">
+    <text>{{submitting ? '提交中…' : '提交举报'}}</text>
+  </view>
+</view>

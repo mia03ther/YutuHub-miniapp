@@ -1,5 +1,8 @@
-/**
+﻿/**
  * Campus activity feed shown on the home page and in explore.
+ *
+ * Channels mirror the web app: AI tools, learning Wiki, skill exchange,
+ * project teaming and campus services.
  */
 
 import type { Tone } from './brand'
@@ -18,72 +21,99 @@ export interface FeedItem {
   comments: number
   time: string
   liked: boolean
+  /** Required disclosure when content was produced or edited with AI help. */
+  aiAssisted: boolean
   tags: string[]
 }
 
 export const FEED_ITEMS: FeedItem[] = [
   {
     id: 'f_1001',
-    detailId: 'd_study',
-    author: '屿途官方',
-    avatar: '屿',
-    avatarTone: 'orange',
-    channel: '校园资讯',
-    title: '2026 秋季学期选课系统开放预告',
-    summary: '选课通道将于本周五 12:00 开放，建议提前在教务系统确认培养方案，避免与必修冲突。',
+    detailId: 'd_service_map',
+    author: '陈曦',
+    avatar: '曦',
+    avatarTone: 'mint',
+    channel: '校园服务',
+    title: '校园办事地图 · 教务 / 财务 / 图书馆',
+    summary:
+      '按要办的事整理，不是按部门排的。每条都实地跑过，含材料清单与窗口时间。',
     cover: '',
     likes: 342,
     comments: 58,
     time: '10 分钟前',
     liked: false,
-    tags: ['教务', '选课', '实用']
+    aiAssisted: false,
+    tags: ['办事指南', '新生']
   },
   {
     id: 'f_1002',
     detailId: 'd_market',
-    author: '林一一',
-    avatar: '林',
-    avatarTone: 'orange',
-    channel: '二手交易',
-    title: '毕业清仓｜九成新机械键盘 送键帽',
-    summary: '宿舍搬迁出一把 cherry 轴键盘，附原装键帽和收纳包，仅校内自提，价好可小刀。',
+    author: '纳比',
+    avatar: '纳',
+    avatarTone: 'purple',
+    channel: '技能交换',
+    title: '技能交换 · LaTeX 排版换前端部署',
+    summary:
+      '能教参考文献格式、表格跨页、数学环境冲突。想换前端部署或简历排版指导。',
     cover: '',
     likes: 128,
     comments: 31,
     time: '1 小时前',
     liked: true,
-    tags: ['闲置', '自提']
+    aiAssisted: false,
+    tags: ['技能交换', 'LaTeX']
   },
   {
     id: 'f_1003',
     detailId: 'd_ai',
-    author: 'AI 小屿',
-    avatar: 'AI',
+    author: '沈遇白',
+    avatar: '沈',
     avatarTone: 'blue',
     channel: 'AI 工具',
     title: '用 AI 把一整学期笔记压成一页知识地图',
-    summary: '实测有效的四步提示词模板，附可直接复制的 prompt，论文和考研资料都能套用。',
+    summary:
+      '实测有效的四步提示词流程，附可直接复制的模板。AI 辅助整理已标注。',
     cover: '',
     likes: 876,
     comments: 142,
     time: '3 小时前',
     liked: false,
-    tags: ['提示词', '效率', '收藏']
+    aiAssisted: true,
+    tags: ['提示词', '效率']
   },
   {
     id: 'f_1004',
     detailId: 'd_cat',
-    author: '猫猫观测站',
-    avatar: '猫',
-    avatarTone: 'mint',
-    channel: '校园猫咪',
-    title: '图书馆后花园的三花今天又在晒太阳了',
-    summary: '固定出没时间更新：中午 12:00 - 14:00，位置在三楼连廊尽头的花坛旁边，亲测。',
+    author: '阿其',
+    avatar: '其',
+    avatarTone: 'blue',
+    channel: '学习 Wiki',
+    title: '教学楼自习座位分布 · 按时段整理',
+    summary:
+      '记了两个星期的使用情况：哪个时段哪层空、有插座的排在哪、安静程度排序。',
     cover: '',
     likes: 654,
     comments: 96,
     time: '昨天',
     liked: false,
-    tags: ['云吸猫', '出没时间']
+    aiAssisted: false,
+    tags: ['自习', '实用']
+  },
+  {
+    id: 'f_1005',
+    detailId: 'd_project',
+    author: '林知远',
+    avatar: '林',
+    avatarTone: 'purple',
+    channel: '项目组队',
+    title: '组队招募 · 校园问答机器人',
+    summary: '已抓取 400+ 篇通知公告并搭好检索链路。缺向量检索和交互设计同学。',
+    cover: '',
+    likes: 214,
+    comments: 47,
+    time: '昨天',
+    liked: false,
+    aiAssisted: false,
+    tags: ['组队', 'AI']
   }
 ]

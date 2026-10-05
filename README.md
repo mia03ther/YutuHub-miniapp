@@ -1,84 +1,127 @@
-﻿# YutuHub Mini Program
+﻿# YutuHub 小程序
 
-> 屿途校园（YuTuHub）微信小程序端 —— 面向高校学生的校园信息服务平台。
+> YutuHub 微信小程序端 —— 面向高校学生的 AI 驱动校园知识与服务社区
 
-屿途校园是一款面向高校学生的校园信息服务微信小程序，连接校园信息、学习交流、生活服务与资源共享。项目以**产品 Demo** 形态开源，当前处于「mock 数据驱动」阶段，未接入真实后端。
+原生微信小程序，不套 Web、不用跨端框架。目标是贴合微信生态的加载速度与原生交互。
 
 ---
 
-## 功能
+## 五个方向
 
-| 模块 | 说明 | 状态 |
+小程序端与 Web 端共用同一套内容模型，频道划分保持一致：
+
+| 方向 | 说明 |
+|---|---|
+| AI 工具 | 实测笔记、成本对比、提示词流程 |
+| 学习 Wiki | 课程笔记、竞赛经验、办事指南的可修订词条 |
+| 技能交换 | 拿会的东西换不会的东西，贡献值结算 |
+| 项目组队 | 学生项目缺人时直接联系作者 |
+| 校园服务 | 办事流程、自习座位这类实用信息 |
+
+---
+
+## 页面结构
+
+TabBar 四页（自定义，纯 CSS 图标）：
+
+| Tab | 页面 | 内容 |
 |---|---|---|
-| 校园动态 | 首页信息流，含作者、标签、摘要、点赞与评论数 | ✅ 可用（mock） |
-| 学习交流 | 课程互助、考研组队、资料共享与答疑 | ✅ 可用（mock） |
-| 校园生活 | 校园美食、猫咪地图等生活类内容 | ✅ 可用（mock） |
-| 闲置交易 | 校园内闲置流转，含价格与自提信息 | ✅ 可用（mock） |
-| AI 工具 | 提示词工程与效率工具内容 | ✅ 可用（mock） |
+| 首页 | `pages/index/index` | 等级卡、五大功能入口、动态信息流（骨架屏 / 错误 / 空 / 上拉分页）、精选词条 |
+| 发现 | `pages/explore/explore` | 精选频道、横向话题切换、编辑精选、讨论列表（含举报入口） |
+| 发布 | `pages/create/create` | 分类选择、字数校验、真机图片选择、内容安全检测、草稿自动保存 |
+| 我的 | `pages/profile/profile` | 头像昵称授权、贡献值与等级进度、四项统计、我的内容、设置入口 |
 
-已实现的页面能力：
+非 Tab 页面：
 
-- **首页** —— 品牌 Hero、五大功能入口、校园动态信息流（含加载 / 空 / 错误三态）、推荐内容分组切换
-- **探索页** —— 精选频道、热门话题（支持从首页入口自动定位）、编辑精选、最新讨论
-- **详情页** —— 正文分段、图片区、标签、点赞 / 收藏 / 评论（可本地发送）
-- **发布页** —— 分类选择、标题正文校验、图片占位、**草稿自动保存**、发布反馈
-- **个人中心** —— 用户资料、授权绑定微信头像昵称、我的内容、设置
-- **自定义 TabBar** —— 纯 CSS 图标、当前页高亮指示条
+| 页面 | 说明 |
+|---|---|
+| `pages/detail/detail` | 正文、AI 标识、图片、评论（独立加载 / 错误 / 空三态）、举报 |
+| `package-legal/privacy` | 隐私保护指引 |
+| `package-legal/agreement` | 社区公约 |
+| `package-legal/points` | 贡献值规则 |
+| `package-legal/report` | 举报表单 |
+
+---
+
+## 合规状态
+
+审核阻塞项已全部处理：
+
+| 项 | 状态 | 实现 |
+|---|---|---|
+| 举报入口 | ✅ | 详情页底部与每条评论、发现页每条讨论均有入口；`services/report.ts` 提交到 `POST /api/reports` |
+| 隐私政策 | ✅ | `package-legal/privacy`，`app.json` 开启 `__usePrivacyCheck__` |
+| 隐私授权回调 | ✅ | `app.ts` 的 `onNeedPrivacyAuthorization` → `services/auth.ts` 的 `handlePrivacyAuthorization` |
+| 内容安全检测 | ✅ | 发布前 `wx.security.msgSecCheck`，图片选择后 `imgSecCheck`；能力未开通时回退后端 `/moderation/text` |
+| 贡献值规则公示 | ✅ | `package-legal/points`，明确不可提现、不可转让 |
+| AI 内容标注 | ✅ | `DetailItem.aiAssisted` / `FeedItem.aiAssisted`，命中时页面展示标识 |
+| 虚构数据 | ✅ | 移除虚构高校名与编造运营数据，学校统一用「本校」 |
+
+> 上架前仍需在微信公众平台开通「内容安全」能力，否则检测接口不可用（已实现后端回退路径）。
+
+---
+
+## 性能约定
+
+| 约定 | 原因 |
+|---|---|
+| 只用异步 `wx.setStorage` / `wx.getStorage` | 同步 API 阻塞渲染线程。发布页此前每次按键都同步写草稿，是最严重的一处 |
+| 草稿保存 500ms debounce + `flush()` | 避免按键时反复落盘，离开页面强制补写一次 |
+| 点赞只 `setData` 单行 | 此前替换整个 feed 数组，列表变长后成本线性上升 |
+| 信息流上拉分页 | `fetchFeed` 已支持 `page` / `limit`，页面按 10 条一页加载 |
+| 骨架屏替代动画 | 保留 shimmer 作为加载反馈，去掉入场动画与多余过渡 |
+| 协议页放分包 | `package-legal` 只在需要时预载，主包体积不随合规文案增长 |
 
 ---
 
 ## 技术栈
 
-- 微信原生小程序（无任何第三方框架）
-- TypeScript（`strict` 模式，零 `any`）
-- Component 组件化
-- Mock 数据驱动 + services 分层
+- 微信原生 + `glass-easel` + `lazyCodeLoading: requiredComponents`
+- TypeScript `strict` + `noUnusedLocals` / `noUnusedParameters`
+- ESLint 9 flat config + Prettier
+- `services/` 双模数据层（mock / 真实请求）
 
 ---
 
-## 项目结构
+## 目录结构
 
 ```
-YutuHub-miniapp/
-├── miniprogram/
-│   ├── app.ts                 # 入口，globalData（mockMode / apiBase / pendingChannel）
-│   ├── app.json               # 页面路由、tabBar、窗口配置
-│   ├── app.wxss               # 全局设计令牌与通用样式
-│   ├── sitemap.json           # 搜索收录规则
-│   │
-│   ├── pages/
-│   │   ├── index/             # 首页
-│   │   ├── explore/           # 探索
-│   │   ├── profile/           # 个人中心
-│   │   ├── detail/            # 内容详情
-│   │   └── create/            # 发布动态
-│   │
-│   ├── components/
-│   │   ├── navbar/            # 顶部导航（可选返回按钮）
-│   │   ├── card/              # 通用卡片容器（多变体 / 圆角 / 内边距）
-│   │   └── feature-card/      # 功能入口卡片（tile / wide 两种布局）
-│   │
-│   ├── custom-tab-bar/        # 自定义底部导航
-│   │
-│   ├── data/                  # Mock 数据层（按领域拆分，index.ts 统一导出）
-│   │   ├── brand.ts           # 品牌信息与问候语
-│   │   ├── feature.ts         # 功能入口、频道、推荐、发布分类
-│   │   ├── feed.ts            # 校园动态信息流
-│   │   ├── detail.ts          # 详情内容与评论
-│   │   ├── profile.ts         # 用户资料与菜单
-│   │   └── index.ts           # barrel
-│   │
-│   └── services/              # 数据服务层（mock / 真实请求双通道）
-│       ├── request.ts         # 统一请求封装、mockMode 判定、模拟延迟
-│       ├── auth.ts            # 微信登录与会话存储
-│       ├── feed.ts            # 信息流 / 详情 / 评论 / 点赞收藏
-│       ├── user.ts            # 用户资料与内容发布
-│       └── market.ts          # 闲置交易
-│
-├── typings/                   # 微信官方类型声明 + IAppOption 全局类型
-├── project.config.json        # 微信开发者工具配置
-├── tsconfig.json
-└── 审核风险报告.md
+miniprogram/
+├── app.ts                 # 入口：globalData、登录、隐私授权预热
+├── app.json               # 路由、tabBar、分包、隐私开关
+├── app.wxss               # 全局设计令牌与通用样式
+├── sitemap.json
+├── pages/
+│   ├── index/             # 首页
+│   ├── explore/           # 发现
+│   ├── create/            # 发布
+│   ├── profile/           # 我的
+│   └── detail/            # 详情
+├── package-legal/         # 分包：隐私 / 公约 / 贡献值 / 举报
+├── components/
+│   ├── navbar/            # 顶部导航
+│   ├── card/              # 通用卡片容器
+│   └── feature-card/      # 功能入口卡片
+├── custom-tab-bar/        # 自定义底部导航
+├── data/                  # 内容与配置层
+│   ├── brand.ts           # 品牌信息与问候语
+│   ├── feature.ts         # 功能入口、频道、话题、发布分类
+│   ├── feed.ts            # 动态信息流
+│   ├── detail.ts          # 详情内容与评论
+│   ├── profile.ts         # 用户资料、等级模型、菜单
+│   ├── policy.ts          # 合规文案
+│   └── legal.ts           # 协议数据结构
+├── services/              # 数据服务层
+│   ├── request.ts         # 请求封装与 mockMode 判定
+│   ├── auth.ts            # 登录、会话、隐私授权
+│   ├── feed.ts            # 信息流 / 详情 / 评论
+│   ├── user.ts            # 资料与发布
+│   ├── security.ts        # 内容安全检测
+│   ├── report.ts          # 举报
+│   └── skill.ts           # 技能交换
+└── utils/
+    ├── storage.ts         # 异步存储与 debounce
+    └── platform.ts        # 新版 wx API 的类型化访问
 ```
 
 ---
@@ -88,66 +131,60 @@ YutuHub-miniapp/
 ### 环境
 
 - 微信开发者工具（稳定版）
-- Node.js 18+（仅用于类型检查，运行不依赖 Node）
-- TypeScript 5.4+
+- Node.js 20+（仅用于类型检查与 lint，运行不依赖 Node）
 
-### 步骤
+### 命令
 
 ```bash
-# 1. 安装类型检查依赖
 npm install
 
-# 2. 类型检查（必须 0 error）
-npm run typecheck
-
-# 3. 用微信开发者工具打开项目根目录
-#    导入时选择「小程序」项目，AppID 使用自己的测试号
+npm run typecheck      # tsc --noEmit
+npm run lint           # eslint，0 warning 门禁
+npm run format         # prettier 写入
+npm run check          # typecheck + lint，提交前跑这个
 ```
 
-`project.config.json` 中的 `appid` 为原作者的 AppID，Fork 后请替换为你自己的；在开发者工具中勾选「不校验合法域名」即可在 `mockMode` 下正常预览。
+### 打开项目
 
-### 开启真实后端
+用微信开发者工具导入**仓库根目录**（不是 `miniprogram/`），AppID 换成你自己的测试号，勾选「不校验合法域名」即可在 mock 模式预览。
 
-`miniprogram/app.ts` 中将 `mockMode` 置为 `false`，并配置 `apiBase`：
+---
+
+## 接入真实后端
+
+`miniprogram/app.ts`：
 
 ```ts
+const API_BASE = 'https://api.yutuhub.com/api';
+
 globalData: {
-  apiBase: 'https://api.yutuhub.com/api',
+  apiBase: API_BASE,
   mockMode: false,   // 切换后 services 走 wx.request
   loginCode: ''
 }
 ```
 
-`services/` 下的每个函数都遵循同一模式：
+`services/` 下每个函数统一形态，切换后端**不需要改页面代码**：
 
 ```ts
 if (isMockMode()) {
-  return mockDelay(mockData)
+  return mockDelay(mockData);
 }
-return request({ url: '/posts', data: query })
+return request({ url: '/posts', data: query });
 ```
 
-切换后端**不需要改页面代码**。
+对接前确认：
 
----
-
-## 未来规划
-
-- [ ] **阿里云后端** —— Express + MySQL，部署于阿里云 ECS
-- [ ] **用户系统** —— 微信登录、OpenID 绑定、院系认证
-- [ ] **内容审核** —— 接入 `msgSecCheck` / `imgSecCheck`，补齐举报与投诉入口
-- [ ] **AI 助手** —— 校园问答、资料检索、内容创作辅助
-- [ ] **合规基建** —— 隐私政策、用户协议、积分规则公示
-
-> 详细的合规差距与提审检查清单见 [审核风险报告.md](./审核风险报告.md)。
-> **当前形态不建议直接提交微信审核**，原因见该报告 P0 部分。
+1. 微信公众平台 → 开发管理 → 服务器域名，把 API 域名加入 `request` 白名单
+2. 后端实现 `/auth/login`（code2session）、`/moderation/text`、`/reports`
+3. 后端 `CORS` 不影响小程序，但需正确返回统一响应封装 `{ success, data, message }`
 
 ---
 
 ## 相关仓库
 
-- 后端 API：YutuHub（`server/` Express + Prisma + SQLite → MySQL）
-- Web 前端：YutuHub（Next.js）
+- Web 前端与后端 API：[mia03ther/YutuHub](https://github.com/mia03ther/YutuHub)
+- 技术审计与重构路线：Web 仓库 `docs/TECHNICAL_AUDIT.md`
 
 ---
 

@@ -2,14 +2,36 @@
   "pages": [
     "pages/index/index",
     "pages/explore/explore",
+    "pages/create/create",
     "pages/profile/profile",
-    "pages/detail/detail",
-    "pages/create/create"
+    "pages/detail/detail"
   ],
+  "subPackages": [
+    {
+      "root": "package-legal",
+      "name": "legal",
+      "pages": [
+        "privacy/privacy",
+        "agreement/agreement",
+        "points/points",
+        "report/report"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["legal"]
+    },
+    "pages/explore/explore": {
+      "network": "all",
+      "packages": ["legal"]
+    }
+  },
   "window": {
     "navigationStyle": "default",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "屿途校园",
+    "navigationBarTitleText": "YutuHub",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#F7F7F5",
     "backgroundTextStyle": "dark",
@@ -18,7 +40,7 @@
   "tabBar": {
     "custom": true,
     "color": "#9A9A9A",
-    "selectedColor": "#FF6B4A",
+    "selectedColor": "#5B4BFF",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
@@ -40,7 +62,9 @@
       }
     ]
   },
+  "__usePrivacyCheck__": true,
   "style": "v2",
   "componentFramework": "glass-easel",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
 }

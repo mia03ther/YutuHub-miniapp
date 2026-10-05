@@ -10,6 +10,18 @@
       "page": "pages/explore/explore"
     },
     {
+      "action": "allow",
+      "page": "package-legal/privacy/privacy"
+    },
+    {
+      "action": "allow",
+      "page": "package-legal/agreement/agreement"
+    },
+    {
+      "action": "allow",
+      "page": "package-legal/points/points"
+    },
+    {
       "action": "disallow",
       "page": "pages/profile/profile"
     },
@@ -20,6 +32,10 @@
     {
       "action": "disallow",
       "page": "pages/detail/detail"
+    },
+    {
+      "action": "disallow",
+      "page": "package-legal/report/report"
     }
   ]
 }
